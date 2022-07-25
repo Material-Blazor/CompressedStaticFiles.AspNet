@@ -110,31 +110,36 @@ jobs:
 # Run the test project. Should this fail, the deploy step (job deployghpages) is skipped
 # This is soft-skipped when we only want to perform a comparison (github.event_name != 'workflow_dispatch')
 ############################################################################################################
-  #test:
-  #  name: Run .NET tests
-  #  runs-on: windows-latest
+  test:
+    name: Run .NET tests
+    runs-on: windows-latest
+    env:
+      config: 'Release'
 
-  #  steps:
-  #  - name: Setup .NET Core
-  #    uses: actions/setup-dotnet@v1
-  #    if: github.event_name != 'workflow_dispatch'
-
-  #  - name: Checkout repository under $GITHUB_WORKSPACE so the job can access it 🛎️
-  #    uses: actions/checkout@v2
-  #    with:
-  #      persist-credentials: false
-  #    if: github.event_name != 'workflow_dispatch'
-
-  #  - name: Use prelease dotnet
-  #    uses: actions/setup-dotnet@v1
-  #    with:
-  #      dotnet-version: '6.0.x'
-  #      include-prerelease: true
-  #    if: github.event_name != 'workflow_dispatch'
-
-  #  - name: Run the acceptance tests as the first build action and cancel out the rest if it fails
-  #    run: dotnet test ${{env.projectTest}} --configuration ${{env.buildConfiguration}}
-  #    if: github.event_name != 'workflow_dispatch'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+#    - name: Install dependencies
+#      run: dotnet restore --verbosity normal
+#    - name: Build
+#      run: dotnet build --configuration $config --no-restore
+#    - name: Test
+#      run: dotnet test --configuration $config --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=lcov
+#    - name: Find lcov file path
+#      id: find-lcov-file-path
+#      shell: pwsh
+#      run: |
+#        $FilePath = (Get-ChildItem CompressedStaticFiles.Tests\TestResults\* | Select-Object -First 1 | Get-ChildItem).FullName
+#        Write-Host ::set-output name=path::$FilePath
+#    - name: Publish coverage report to coveralls.io
+#      uses: coverallsapp/github-action@master
+#      with:
+#        github-token: ${{ secrets.GITHUB_TOKEN }}
+#        path-to-lcov: ${{ steps.find-lcov-file-path.outputs.path }}
       
 ############################################################################################################
 # Build nuget package
@@ -142,7 +147,7 @@ jobs:
 ############################################################################################################
   build-package:
     name: Build nuget package
-    needs: [version]
+    needs: [info, test, version]
 
     runs-on: windows-latest
     if: github.event_name != 'workflow_dispatch'

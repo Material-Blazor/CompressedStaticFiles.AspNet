@@ -11,7 +11,7 @@
     <PackageTags>aspnetcore;staticfiles;compression;precompressed;gzip;brotli;zopfli;webp;avif;</PackageTags>
     <PackageReleaseNotes>1.0.0
 Added support for alternative image formats
-Added support for .net 5
+Added support for .net 6
 Removed support for .net core 2.1
 1.2.0
 Added support for .net core 3.1
