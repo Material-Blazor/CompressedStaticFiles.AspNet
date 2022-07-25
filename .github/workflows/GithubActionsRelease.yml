@@ -1,0 +1,165 @@
+﻿name: GithubActionsRelease
+
+############################################################################################################
+# All of thes jobs runs commands only on a tag push in the Material-Blazor\Material.Blazor repository
+# The publishing actions in forked repositories were handled by the WIP workflow
+# An 'ExitWorkflow' action is sorely needed
+############################################################################################################
+# NUGET_API_KEY is valid through 9/11/2021
+############################################################################################################
+
+on:
+  push:
+    tags:
+      - '*' # Push events to matching *, i.e. 1.0, 20.15.10
+    branches:
+      - experimental-release-workflow
+
+env:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  outputCSFB: ${{github.workspace}}\siteCSFB
+  projectCSFB: 'CompressedStaticFiles.Blazor/CompressedStaticFiles.Blazor.csproj'
+  projectTest: 'CompressedStaticFiles.Blazor.Test/CompressedStaticFiles.Blazor.Test.csproj'
+ 
+jobs:
+
+############################################################################################################
+# These jobs are used to gate actions. By creating these jobs we don't need to proliferate the repo checks
+############################################################################################################
+  is-on-fork:
+    name: Running on a fork?
+    runs-on: ubuntu-latest
+    if: github.repository != 'Material-Blazor/CompressedStaticFiles.Blazor'
+    steps:
+    - name: Nothing to see here
+      run: echo ""
+
+  is-on-material-blazor:
+    name: Running on Material-Blazor/CompressedStaticFiles.Blazor?
+    runs-on: ubuntu-latest
+    if: github.repository == 'Material-Blazor/CompressedStaticFiles.Blazor'
+    steps:
+    - name: Nothing to see here
+      run: echo ""
+
+############################################################################################################
+# Run the test project. Should this fail, we don't perform any deploy action
+############################################################################################################
+  test:
+    name: Run .NET tests
+    runs-on: windows-latest
+    env:
+      config: 'Release'
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+#    - name: Install dependencies
+#      run: dotnet restore --verbosity normal
+#    - name: Build
+#      run: dotnet build --configuration $config --no-restore
+#    - name: Test
+#      run: dotnet test --configuration $config --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=lcov
+#    - name: Find lcov file path
+#      id: find-lcov-file-path
+#      shell: pwsh
+#      run: |
+#        $FilePath = (Get-ChildItem CompressedStaticFiles.Tests\TestResults\* | Select-Object -First 1 | Get-ChildItem).FullName
+#        Write-Host ::set-output name=path::$FilePath
+#    - name: Publish coverage report to coveralls.io
+#      uses: coverallsapp/github-action@master
+#      with:
+#        github-token: ${{ secrets.GITHUB_TOKEN }}
+#        path-to-lcov: ${{ steps.find-lcov-file-path.outputs.path }}
+
+############################################################################################################
+# Store the version information
+############################################################################################################
+  version:
+    name: Set version identifier
+    runs-on: ubuntu-latest
+
+    steps:
+    - id: get
+      run: |
+        echo "::set-output name=identifier::${GITHUB_REF/refs\/tags\//}"
+    - id: show
+      run: |
+        echo "${{ steps.get.outputs.identifier }}"
+    outputs:
+      identifier: ${{ steps.get.outputs.identifier }}
+############################################################################################################
+# Store the branch information
+############################################################################################################
+  branch:
+    name: Set branch identifier
+    runs-on: ubuntu-latest
+    steps:
+    - id: get
+      run: |
+        echo "::set-output name=identifier::${GITHUB_REF/refs\/heads\//}"
+    - id: show
+      run: |
+        echo "${{ steps.get.outputs.identifier }}"
+    outputs:
+      identifier: ${{ steps.get.outputs.identifier }}
+
+############################################################################################################
+# Build package and deploy
+############################################################################################################
+  build-and-deploy-package:
+    name: Build nuget package & deploy to nuget
+    needs: [version, branch, is-on-material-blazor, test]
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository under $GITHUB_WORKSPACE so the job can access it 🛎️
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
+    - name: Use prelease dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+
+    - name: Build CompressedStaticFiles.Blazor 🔧
+      run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} -p:Version=${{needs.version.outputs.identifier}}
+
+    - name: Generate the NuGet package 🔧
+      run: dotnet pack ${{env.projectCSFB}} --no-build --configuration ${{env.buildConfiguration}} --output ${{env.outputCSFB}} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:Version=${{needs.version.outputs.identifier}}
+
+    - name: Display CompressedStaticFiles.Blazor package output Ꙫ
+      run: dir ${{env.outputCSFB}}
+
+    - name: Upload Package 🚀
+      run: dotnet nuget push ${{env.outputCSFB}}\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      if: needs.branch.outputs.identifier != 'experimental-release-workflow' # this check is important to allow testing this workflow on a non-main branch without deploying to nuget: this critical action is not performed when not on main.
+
+############################################################################################################
+# Create release
+############################################################################################################
+  create-release:
+    name: Create release
+    needs: [build-and-deploy-package, branch, version, is-on-material-blazor]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Release
+      if: needs.branch.outputs.identifier != 'experimental-release-workflow' # this check is important to allow testing this workflow on a non-main branch without deploying to nuget: this critical action is not performed when not on main.
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{needs.version.outputs.identifier}}
+        release_name: Release ${{needs.version.outputs.identifier}}
+        draft: false
+        prerelease: false

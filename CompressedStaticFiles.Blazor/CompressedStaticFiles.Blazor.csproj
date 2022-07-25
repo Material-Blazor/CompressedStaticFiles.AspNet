@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;</TargetFrameworks>
-    <Version>2.0.0</Version>
+    <Version>1.0.0</Version>
     <Authors>Peter Andersson;Andrey Kudashkin;Mathias Raacke,Arian Kadkhoda</Authors>
     <Company>Peter Andersson;Andrey Kudashkin;Mathias Raacke,Arian Kadkhoda</Company>
     <Description>Send compressed static files to the browser without having to compress on demand, also has support for sending more advanced image formats when the browser indicates that i has support for it.
       Files need to be compressed and converted to other image formats before deploying.</Description>
     <PackageProjectUrl>https://github.com/AnderssonPeter/CompressedStaticFiles</PackageProjectUrl>
     <PackageTags>aspnetcore;staticfiles;compression;precompressed;gzip;brotli;zopfli;webp;avif;</PackageTags>
-    <PackageReleaseNotes>2.0.0
+    <PackageReleaseNotes>1.0.0
 Added support for alternative image formats
-Added support for .net 5
+Added support for .net 6
 Removed support for .net core 2.1
 1.2.0
 Added support for .net core 3.1
@@ -30,9 +30,9 @@ Added support for .NETFramework 4.5.1
 
 1.0.0
 Initial release</PackageReleaseNotes>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <FileVersion>2.0.0.0</FileVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/AnderssonPeter/CompressedStaticFiles</RepositoryUrl>
