@@ -2,6 +2,7 @@ using CompressedStaticFiles.Example.Data;
 using CompressedStaticFiles;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+/*
+ * 
+ * Dynanmic response compression service that compresses
+ * any responses not already served by the pre compression middleware.
+ * To use this, uncomment the app.UseResponseCompression() line below.
+ * 
+ */
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
 
 /*
  * 
@@ -31,9 +46,11 @@ app.UseHttpsRedirection();
 
 /*
  * 
- * Remove app.UseStaticFiles middleware and replace with app.UseCompressedStaticFiles 
+ * Remove app.UseStaticFiles middleware and replace with app.UseCompressedStaticFiles. Uncomment
+ * the app.UseResponseCompression() line below to compress any responses that are not precompressed static files.
  * 
  */
+//app.UseResponseCompression();
 app.UseCompressedStaticFiles();
 
 app.UseRouting();

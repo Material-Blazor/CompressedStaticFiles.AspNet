@@ -11,7 +11,7 @@
 
 
 	<!--All subsequent code contributed by https://github.com/SQL-MisterMagoo-->
-	
+
 	<PropertyGroup>
 		<!--Paths to tools, tasks, and extensions are calculated relative to the BlazorWebAssemblySdkDirectoryRoot.
 			But there does not seem to be a property for that, so after much trial and error, using the property 
@@ -35,9 +35,9 @@
 	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.BrotliCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
 	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.GzipCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
 
-	
-	
-	
+
+
+
 	<!--
 		This target runs after build. If you want to run after Publish, change:
 		- AfterTargets should be set to "Build"
@@ -72,7 +72,10 @@
 
 	</Target>
 	<ItemGroup>
-	  <ProjectReference Include="..\CompressedStaticFiles.Blazor\CompressedStaticFiles.Blazor.csproj" />
+		<ProjectReference Include="..\CompressedStaticFiles.Blazor\CompressedStaticFiles.Blazor.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\images\" />
 	</ItemGroup>
 
 </Project>
