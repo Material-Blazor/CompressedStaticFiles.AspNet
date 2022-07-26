@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -25,14 +25,15 @@
 		<BlazorWebAssemblySdkDirectoryRoot>$(_SDKRoot)\Microsoft.NET.Sdk.BlazorWebAssembly\</BlazorWebAssemblySdkDirectoryRoot>
 
 		<!-- The next four lines are Copyright (c) .NET Foundation. All rights reserved. -->
-		<_BlazorWebAssemblySdkTasksTFM>net6.0</_BlazorWebAssemblySdkTasksTFM>
+		<_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' == 'Core'">net6.0</_BlazorWebAssemblySdkTasksTFM>
+		<_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' != 'Core'">net472</_BlazorWebAssemblySdkTasksTFM>
 		<_BlazorWebAssemblySdkTasksAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\$(_BlazorWebAssemblySdkTasksTFM)\Microsoft.NET.Sdk.BlazorWebAssembly.Tasks.dll</_BlazorWebAssemblySdkTasksAssembly>
 		<_BlazorWebAssemblySdkToolAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\net6.0\Microsoft.NET.Sdk.BlazorWebAssembly.Tool.dll</_BlazorWebAssemblySdkToolAssembly>
 	</PropertyGroup>
 
 	<!-- The next two lines are Copyright (c) .NET Foundation. All rights reserved. -->
-	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.BrotliCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)"/>
-	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.GzipCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)"/>
+	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.BrotliCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
+	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.GzipCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
 
 	
 	
@@ -48,8 +49,8 @@
 			you probably don't want to change anything else - just this ItemGroup-->
 
 		<ItemGroup>
-			<MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.css"/>
-			<MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.js"/>
+			<MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.css" />
+			<MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.js" />
 		</ItemGroup>
 
 		<!--Call the BlazorWebAssembly Task GZipCompress and store the results in MyCompressedFiles-->
@@ -70,5 +71,8 @@
 		<Move SourceFiles="%(MyCompressedFiles.FullPath)" DestinationFiles="%(MyCompressedFiles.OriginalItemSpec)%(MyCompressedFiles.Extension)" />
 
 	</Target>
+	<ItemGroup>
+	  <ProjectReference Include="..\CompressedStaticFiles.Blazor\CompressedStaticFiles.Blazor.csproj" />
+	</ItemGroup>
 
 </Project>

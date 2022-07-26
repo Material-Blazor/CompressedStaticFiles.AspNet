@@ -1,4 +1,5 @@
-using CompressedStaticAssets.Example.Data;
+using CompressedStaticFiles.Example.Data;
+using CompressedStaticFiles;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -8,6 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+/*
+ * 
+ * Add compressed static files service 
+ * 
+ */
+builder.Services.AddCompressedStaticFiles();
 
 var app = builder.Build();
 
@@ -21,7 +29,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+/*
+ * 
+ * Remove app.UseStaticFiles middleware and replace with app.UseCompressedStaticFiles 
+ * 
+ */
+app.UseCompressedStaticFiles();
 
 app.UseRouting();
 

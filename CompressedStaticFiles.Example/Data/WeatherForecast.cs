@@ -1,4 +1,4 @@
-namespace CompressedStaticAssets.Example.Data
+namespace CompressedStaticFiles.Example.Data
 {
     public class WeatherForecast
     {

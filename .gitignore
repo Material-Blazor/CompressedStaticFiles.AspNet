@@ -12,7 +12,7 @@
 
 # Compressed files
 *.br
-*.gzip
+*.gz
 
 # Build results
 [Dd]ebug/
