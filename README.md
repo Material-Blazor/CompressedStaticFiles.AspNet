@@ -27,8 +27,10 @@
 [![GitHub stars](https://img.shields.io/github/stars/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/stargazers)
 [![GitHub stars](https://img.shields.io/github/watchers/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/watchers)
 
-[![GithubActionsMainPublish](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsMainPublish?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsRelease)
-[![GithubActionsDevelop](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsDevelop?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsWIP)
+---
+
+[![GithubActionsMainPublish](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsRelease?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsRelease)
+[![GithubActionsDevelop](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsWIP?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsWIP)
 
 ---
 
@@ -65,4 +67,7 @@ An example can be found in the [Example](https://github.com/material-blazor/Comp
 By using this package the Lighthouse mobile performance went from `76` to `98` and the transferred size went from `526 kb` to `141 kb`.
 
 ## Acknowledgements
-This solution is based on @neyromant from the following issue https://github.com/aspnet/Home/issues/1584#issuecomment-227455026.
+    
+This solution is based upon a clone of https://github.com/AnderssonPeter/CompressedStaticFiles.
+    
+Which was based upon @neyromant from the following issue https://github.com/aspnet/Home/issues/1584#issuecomment-227455026.
