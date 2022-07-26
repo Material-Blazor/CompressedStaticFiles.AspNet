@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompressedStaticFiles.Blazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{560BE25F-638D-4B3C-BE63-D427D6C516C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressedStaticAssets.Example", "CompressedStaticAssets.Example\CompressedStaticAssets.Example.csproj", "{07CB7CC2-D52F-4834-BA41-D962113551F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{560BE25F-638D-4B3C-BE63-D427D6C516C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{560BE25F-638D-4B3C-BE63-D427D6C516C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{560BE25F-638D-4B3C-BE63-D427D6C516C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07CB7CC2-D52F-4834-BA41-D962113551F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CB7CC2-D52F-4834-BA41-D962113551F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07CB7CC2-D52F-4834-BA41-D962113551F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CB7CC2-D52F-4834-BA41-D962113551F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

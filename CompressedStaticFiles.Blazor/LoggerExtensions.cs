@@ -1,31 +1,30 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace CompressedStaticFiles
+namespace CompressedStaticFiles;
+
+internal static class LoggerExtensions
 {
-    internal static class LoggerExtensions
+    private static Action<ILogger, string, string, long, long, Exception> _logFileServed;
+
+    static LoggerExtensions()
     {
-        private static Action<ILogger, string, string, long, long, Exception> _logFileServed;
+        _logFileServed = LoggerMessage.Define<string, string, long, long>(
+           logLevel: LogLevel.Information,
+           eventId: 1,
+           formatString: "Sending file. Request file: '{RequestedPath}'. Served file: '{ServedPath}'. Original file size: {OriginalFileSize}. Served file size: {ServedFileSize}");
+    }
 
-        static LoggerExtensions()
+    public static void LogFileServed(this ILogger logger, string requestedPath, string servedPath, long originalFileSize, long servedFileSize)
+    {
+        if (string.IsNullOrEmpty(requestedPath))
         {
-            _logFileServed = LoggerMessage.Define<string, string, long, long>(
-               logLevel: LogLevel.Information,
-               eventId: 1,
-               formatString: "Sending file. Request file: '{RequestedPath}'. Served file: '{ServedPath}'. Original file size: {OriginalFileSize}. Served file size: {ServedFileSize}");
+            throw new ArgumentNullException(nameof(requestedPath));
         }
-
-        public static void LogFileServed(this ILogger logger, string requestedPath, string servedPath, long originalFileSize, long servedFileSize)
+        if (string.IsNullOrEmpty(servedPath))
         {
-            if (string.IsNullOrEmpty(requestedPath))
-            {
-                throw new ArgumentNullException(nameof(requestedPath));
-            }
-            if (string.IsNullOrEmpty(servedPath))
-            {
-                throw new ArgumentNullException(nameof(servedPath));
-            }
-            _logFileServed(logger, requestedPath, servedPath, originalFileSize, servedFileSize, null);
+            throw new ArgumentNullException(nameof(servedPath));
         }
+        _logFileServed(logger, requestedPath, servedPath, originalFileSize, servedFileSize, null);
     }
 }

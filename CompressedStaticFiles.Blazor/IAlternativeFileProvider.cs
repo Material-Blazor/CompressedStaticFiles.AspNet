@@ -7,11 +7,10 @@ using IHost = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
 #endif
 
 
-namespace CompressedStaticFiles
+namespace CompressedStaticFiles;
+
+public interface IAlternativeFileProvider
 {
-    public interface IAlternativeFileProvider
-    {
-        void Initialize(FileExtensionContentTypeProvider fileExtensionContentTypeProvider);
-        IFileAlternative GetAlternative(HttpContext context, IFileProvider fileSystem, IFileInfo originalFile);
-    }
+    void Initialize(FileExtensionContentTypeProvider fileExtensionContentTypeProvider);
+    IFileAlternative GetAlternative(HttpContext context, IFileProvider fileSystem, IFileInfo originalFile);
 }

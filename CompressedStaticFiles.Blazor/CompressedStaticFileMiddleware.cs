@@ -19,105 +19,104 @@ using IHost = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
 #endif
 
 
-namespace CompressedStaticFiles
+namespace CompressedStaticFiles;
+
+public class CompressedStaticFileMiddleware
 {
-    public class CompressedStaticFileMiddleware
+    private readonly AsyncLocal<IFileAlternative> alternativeFile = new AsyncLocal<IFileAlternative>();
+    private readonly IOptions<StaticFileOptions> _staticFileOptions;
+    private readonly IEnumerable<IAlternativeFileProvider> alternativeFileProviders;
+    private readonly StaticFileMiddleware _base;
+    private readonly ILogger logger;
+
+    public CompressedStaticFileMiddleware(
+        RequestDelegate next,
+        IHost hostingEnv,
+        IOptions<StaticFileOptions> staticFileOptions, IOptions<CompressedStaticFileOptions> compressedStaticFileOptions, ILoggerFactory loggerFactory, IEnumerable<IAlternativeFileProvider> alternativeFileProviders)
     {
-        private readonly AsyncLocal<IFileAlternative> alternativeFile = new AsyncLocal<IFileAlternative>();
-        private readonly IOptions<StaticFileOptions> _staticFileOptions;
-        private readonly IEnumerable<IAlternativeFileProvider> alternativeFileProviders;
-        private readonly StaticFileMiddleware _base;
-        private readonly ILogger logger;
-
-        public CompressedStaticFileMiddleware(
-            RequestDelegate next,
-            IHost hostingEnv,
-            IOptions<StaticFileOptions> staticFileOptions, IOptions<CompressedStaticFileOptions> compressedStaticFileOptions, ILoggerFactory loggerFactory, IEnumerable<IAlternativeFileProvider> alternativeFileProviders)
+        if (next == null)
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-
-            if (loggerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(loggerFactory));
-            }
-
-            if (hostingEnv == null)
-            {
-                throw new ArgumentNullException(nameof(hostingEnv));
-            }
-            if (!alternativeFileProviders.Any())
-            {
-                throw new Exception("No IAlternativeFileProviders where found, did you forget to add AddCompressedStaticFiles() in ConfigureServices?");
-            }
-            logger = loggerFactory.CreateLogger<CompressedStaticFileMiddleware>();
-
-
-            this._staticFileOptions = staticFileOptions ?? throw new ArgumentNullException(nameof(staticFileOptions));
-            this.alternativeFileProviders = alternativeFileProviders;
-            InitializeStaticFileOptions(hostingEnv, staticFileOptions);
-
-            _base = new StaticFileMiddleware(next, hostingEnv, staticFileOptions, loggerFactory);
+            throw new ArgumentNullException(nameof(next));
         }
 
-        private void InitializeStaticFileOptions(IHost hostingEnv, IOptions<StaticFileOptions> staticFileOptions)
+        if (loggerFactory == null)
         {
-            staticFileOptions.Value.FileProvider = staticFileOptions.Value.FileProvider ?? hostingEnv.WebRootFileProvider;
-            var contentTypeProvider = staticFileOptions.Value.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
-            if (contentTypeProvider is FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
-            {
-                foreach(var alternativeFileProvider in alternativeFileProviders)
-                {
-                    alternativeFileProvider.Initialize(fileExtensionContentTypeProvider);
-                }
-                
-            }
-            staticFileOptions.Value.ContentTypeProvider = contentTypeProvider;
-
-            var originalPrepareResponse = staticFileOptions.Value.OnPrepareResponse;
-            staticFileOptions.Value.OnPrepareResponse = context =>
-            {
-                originalPrepareResponse(context);
-                var alternativeFile = this.alternativeFile.Value;
-                if (alternativeFile != null)
-                {
-                    alternativeFile.Prepare(contentTypeProvider, context);
-                }
-                
-            };
+            throw new ArgumentNullException(nameof(loggerFactory));
         }
 
-        public Task Invoke(HttpContext context)
+        if (hostingEnv == null)
         {
-            if (context.Request.Path.HasValue)
+            throw new ArgumentNullException(nameof(hostingEnv));
+        }
+        if (!alternativeFileProviders.Any())
+        {
+            throw new Exception("No IAlternativeFileProviders where found, did you forget to add AddCompressedStaticFiles() in ConfigureServices?");
+        }
+        logger = loggerFactory.CreateLogger<CompressedStaticFileMiddleware>();
+
+
+        this._staticFileOptions = staticFileOptions ?? throw new ArgumentNullException(nameof(staticFileOptions));
+        this.alternativeFileProviders = alternativeFileProviders;
+        InitializeStaticFileOptions(hostingEnv, staticFileOptions);
+
+        _base = new StaticFileMiddleware(next, hostingEnv, staticFileOptions, loggerFactory);
+    }
+
+    private void InitializeStaticFileOptions(IHost hostingEnv, IOptions<StaticFileOptions> staticFileOptions)
+    {
+        staticFileOptions.Value.FileProvider = staticFileOptions.Value.FileProvider ?? hostingEnv.WebRootFileProvider;
+        var contentTypeProvider = staticFileOptions.Value.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
+        if (contentTypeProvider is FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
+        {
+            foreach(var alternativeFileProvider in alternativeFileProviders)
             {
-                ProcessRequest(context);
+                alternativeFileProvider.Initialize(fileExtensionContentTypeProvider);
             }
-            return _base.Invoke(context);
+            
+        }
+        staticFileOptions.Value.ContentTypeProvider = contentTypeProvider;
+
+        var originalPrepareResponse = staticFileOptions.Value.OnPrepareResponse;
+        staticFileOptions.Value.OnPrepareResponse = context =>
+        {
+            originalPrepareResponse(context);
+            var alternativeFile = this.alternativeFile.Value;
+            if (alternativeFile != null)
+            {
+                alternativeFile.Prepare(contentTypeProvider, context);
+            }
+            
+        };
+    }
+
+    public Task Invoke(HttpContext context)
+    {
+        if (context.Request.Path.HasValue)
+        {
+            ProcessRequest(context);
+        }
+        return _base.Invoke(context);
+    }
+
+    private void ProcessRequest(HttpContext context)
+    {
+        var fileSystem = _staticFileOptions.Value.FileProvider;
+        var originalFile = fileSystem.GetFileInfo(context.Request.Path);
+
+        if (!originalFile.Exists || originalFile.IsDirectory)
+        {
+            return;
         }
 
-        private void ProcessRequest(HttpContext context)
+        //Find the smallest file from all our alternative file providers
+        var smallestAlternativeFile = alternativeFileProviders.Select(alternativeFileProvider => alternativeFileProvider.GetAlternative(context, fileSystem, originalFile))
+                                                              .Where(af => af != null)
+                                                              .OrderBy(alternativeFile => alternativeFile?.Cost)
+                                                              .FirstOrDefault();
+        if (smallestAlternativeFile != null)
         {
-            var fileSystem = _staticFileOptions.Value.FileProvider;
-            var originalFile = fileSystem.GetFileInfo(context.Request.Path);
-
-            if (!originalFile.Exists || originalFile.IsDirectory)
-            {
-                return;
-            }
-
-            //Find the smallest file from all our alternative file providers
-            var smallestAlternativeFile = alternativeFileProviders.Select(alternativeFileProvider => alternativeFileProvider.GetAlternative(context, fileSystem, originalFile))
-                                                                  .Where(af => af != null)
-                                                                  .OrderBy(alternativeFile => alternativeFile?.Cost)
-                                                                  .FirstOrDefault();
-            if (smallestAlternativeFile != null)
-            {
-                smallestAlternativeFile.Apply(context);
-                alternativeFile.Value = smallestAlternativeFile;
-            }
+            smallestAlternativeFile.Apply(context);
+            alternativeFile.Value = smallestAlternativeFile;
         }
     }
 }
