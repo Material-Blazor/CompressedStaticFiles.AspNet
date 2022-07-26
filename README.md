@@ -9,20 +9,31 @@
     Send compressed static files to the browser without having to compress on demand, also has support for sending more advanced image formats when the browser has support for it.
     <br />
     <br />
-    ·
-    <a href="https://github.com/AnderssonPeter/CompressedStaticFiles/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/AnderssonPeter/CompressedStaticFiles/issues">Request Feature</a>
-    ·
   </p>
 </p>
 <br />
 
-[![NuGet version](https://badge.fury.io/nu/CompressedStaticFiles.svg)](https://www.nuget.org/packages/CompressedStaticFiles)
-[![Nuget](https://img.shields.io/nuget/dt/CompressedStaticFiles)](https://www.nuget.org/packages/CompressedStaticFiles)
-[![run unit tests](https://github.com/AnderssonPeter/CompressedStaticFiles/workflows/run%20unit%20tests/badge.svg)](https://github.com/AnderssonPeter/CompressedStaticFiles/actions?query=workflow%3A%22run+unit+tests%22)
-[![Coverage Status](https://coveralls.io/repos/github/AnderssonPeter/CompressedStaticFiles/badge.svg)](https://coveralls.io/github/AnderssonPeter/CompressedStaticFiles)
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/AnderssonPeter/CompressedStaticFiles/master/LICENSE)
+[![NuGet version](https://img.shields.io/nuget/v/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20version&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
+[![NuGet version](https://img.shields.io/nuget/vpre/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20pre-release&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
+[![NuGet downloads](https://img.shields.io/nuget/dt/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20downloads&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
+
+
+---
+
+
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/material-blazor/CompressedStaticFiles.AspNetCore/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/stargazers)
+[![GitHub stars](https://img.shields.io/github/watchers/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/watchers)
+
+[![GithubActionsMainPublish](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsMainPublish?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsRelease)
+[![GithubActionsDevelop](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsDevelop?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsWIP)
+
+---
+
+
+
 
 ## Table of Contents
 * [About the Project](#about-the-project)

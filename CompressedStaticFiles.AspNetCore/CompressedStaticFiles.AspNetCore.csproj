@@ -9,40 +9,26 @@
 			Send compressed static files to the browser without having to compress on demand, also has support for sending more advanced image formats when the browser indicates that i has support for it.
 			Files need to be compressed and converted to other image formats before deploying.
 		</Description>
-		<PackageProjectUrl>https://github.com/AnderssonPeter/CompressedStaticFiles</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/material-blazor/CompressedStaticFiles.AspNetCore</PackageProjectUrl>
 		<PackageTags>aspnetcore;staticfiles;compression;precompressed;gzip;brotli;zopfli;webp;avif;</PackageTags>
-		<PackageReleaseNotes>
-			1.0.0
-			Added support for alternative image formats
-			Added support for .net 6
-			Removed support for .net core 2.1
-			1.2.0
-			Added support for .net core 3.1
-			1.1.0
-			New feature: Ability to specify a custom FileProvider (now using the FileProvider provided in the StaticFileOptions if it is set)
-			1.0.4
-			Converted to .NET Standard 1.6
-			1.0.3
-			Fixed issue that disabled caching parameters.
-			1.0.2
-			Added support for IIS.
-			1.0.1
-			Added logging
-			Picks original file if its the smallest
-			Added support for .NETFramework 4.5.1
-
-			1.0.0
-			Initial release
-		</PackageReleaseNotes>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReleaseNotes></PackageReleaseNotes>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<FileVersion>1.0.0.0</FileVersion>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<RepositoryUrl>https://github.com/AnderssonPeter/CompressedStaticFiles</RepositoryUrl>
+		<RepositoryUrl>https://github.com/material-blazor/CompressedStaticFiles.AspNetCore</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
