@@ -5,7 +5,7 @@
 <h1>Setting your project up to use static file compression</h1>
 
 <ul>
-    <li>Include the <code>CompressedStaticFiles.Blazor</code> nuget package in your project;</li>
+    <li>Include the <code>CompressedStaticFiles.AspNetCore</code> nuget package in your project;</li>
     <li>Add the compressed static files service by calling <code>builder.Services.AddCompressedStaticFiles();</code> in <code>Program.cs</code>;</li>
     <li>Replace <code>app.UseStaticFiles();</code> with <code>app.UseCompressedStaticFiles();</code> in Program.cs;</li>
     <li>Add the lines at the bottom of this page to your CSPROJ file just before the closing; and</li>
@@ -103,7 +103,7 @@
 
     &lt;/Target&gt;
     &lt;ItemGroup&gt;
-        &lt;ProjectReference Include="..\CompressedStaticFiles.Blazor\CompressedStaticFiles.Blazor.csproj" /&gt;
+        &lt;ProjectReference Include="..\CompressedStaticFiles.AspNetCore\CompressedStaticFiles.AspNetCore.csproj" /&gt;
     &lt;/ItemGroup&gt;
     &lt;ItemGroup&gt;
         &lt;Folder Include="wwwroot\images\" /&gt;

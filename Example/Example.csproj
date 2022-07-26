@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CompressedStaticFiles.Blazor\CompressedStaticFiles.Blazor.csproj" />
+    <ProjectReference Include="..\CompressedStaticFiles.AspNetCore\CompressedStaticFiles.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>
