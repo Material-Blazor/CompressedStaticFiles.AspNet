@@ -1,1 +1,7 @@
-{"projects":["src","test"]}
+{
+  "sdk": {
+    "version": "6.0.302",
+    "allowPrerelease": true,
+    "rollForward": "latestMinor"
+  }
+}
