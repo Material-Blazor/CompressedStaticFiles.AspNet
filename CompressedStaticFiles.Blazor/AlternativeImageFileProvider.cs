@@ -5,15 +5,19 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
 namespace CompressedStaticFiles;
 
+
+/// <summary>
+/// Implementation of <see cref="IAlternativeFileProvider"/> for images such as JPEG or PNG.
+/// </summary>
 public class AlternativeImageFileProvider : IAlternativeFileProvider
 {
-
-    private static Dictionary<string, string[]> imageFormats =
+    private static readonly ImmutableDictionary<string, string[]> imageFormats =
         new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
         {
             { "image/avif", new [] { ".avif" } },
@@ -25,9 +29,12 @@ public class AlternativeImageFileProvider : IAlternativeFileProvider
             { "image/gif", new [] { ".gif" } },
             { "image/x-icon", new [] { ".ico", ".cur" } },
             { "image/tiff", new [] { ".tif", ".tiff" } }
-        };
+        }.ToImmutableDictionary();
+
+
     private readonly ILogger logger;
     private readonly IOptions<CompressedStaticFileOptions> options;
+
 
     public AlternativeImageFileProvider(ILogger<AlternativeImageFileProvider> logger, IOptions<CompressedStaticFileOptions> options)
     {
@@ -35,6 +42,8 @@ public class AlternativeImageFileProvider : IAlternativeFileProvider
         this.options = options;
     }
 
+    
+    /// <inheritdoc/>
     public void Initialize(FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
     {
         //Ensure that all image mime types are known!
@@ -50,6 +59,8 @@ public class AlternativeImageFileProvider : IAlternativeFileProvider
         }
     }
 
+
+    /// <inheritdoc/>
     private float GetCostRatioForFileExtension(string fileExtension)
     {
         foreach (var mimeType in imageFormats.Keys)
@@ -73,6 +84,8 @@ public class AlternativeImageFileProvider : IAlternativeFileProvider
         return GetCostRatioForFileExtension(fileExtension);
     }
 
+
+    /// <inheritdoc/>
     public IFileAlternative GetAlternative(HttpContext context, IFileProvider fileSystem, IFileInfo originalFile)
     {
         if (!options.Value.EnableImageSubstitution)
@@ -88,17 +101,22 @@ public class AlternativeImageFileProvider : IAlternativeFileProvider
 
         AlternativeImageFile matchedFile = originalAlternativeImageFile;
         var path = context.Request.Path.ToString();
+        
         if (!path.Contains('.'))
         {
             return null;
         }
-        var withoutExtension = path.Substring(0, path.LastIndexOf('.'));
+        
+        var withoutExtension = path[..path.LastIndexOf('.')];
+        
         foreach (var fileExtension in matchingFileExtensions)
         {
             var file = fileSystem.GetFileInfo(withoutExtension + fileExtension);
+            
             if (file.Exists)
             {
                 var alternativeFile = new AlternativeImageFile(logger, originalFile, file, GetCostRatioForFileExtension(fileExtension));
+                
                 if (matchedFile.Cost > alternativeFile.Cost)
                 {
                     matchedFile = alternativeFile;

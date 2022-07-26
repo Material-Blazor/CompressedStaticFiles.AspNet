@@ -7,6 +7,10 @@ using System.IO;
 
 namespace CompressedStaticFiles;
 
+
+/// <summary>
+/// Standard static file (e.g. CSS or JS) implementation of <see cref="IFileAlternative"/>.
+/// </summary>
 public class CompressedAlternativeFile : IFileAlternative
 {
     private readonly ILogger logger;
@@ -20,10 +24,16 @@ public class CompressedAlternativeFile : IFileAlternative
         this.alternativeFile = alternativeFile;
     }
 
+
+    /// <inheritdoc/>
     public long Size => alternativeFile.Length;
 
+
+    /// <inheritdoc/>
     public float Cost => Size;
 
+
+    /// <inheritdoc/>
     public void Apply(HttpContext context)
     {
         var matchedPath = context.Request.Path.Value + Path.GetExtension(alternativeFile.Name);
@@ -31,6 +41,8 @@ public class CompressedAlternativeFile : IFileAlternative
         context.Request.Path = new PathString(matchedPath);
     }
 
+
+    /// <inheritdoc/>
     public void Prepare(IContentTypeProvider contentTypeProvider, StaticFileResponseContext staticFileResponseContext)
     {
         foreach (var compressionType in CompressedAlternativeFileProvider.CompressionTypes.Keys)

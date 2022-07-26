@@ -1,33 +1,30 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-#if NETSTANDARD2_0
-using IHost = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-#else
 using IHost = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
-#endif
 
 
 namespace CompressedStaticFiles;
 
+
+/// <summary>
+/// Compressed static files middleware.
+/// </summary>
 public class CompressedStaticFileMiddleware
 {
-    private readonly AsyncLocal<IFileAlternative> alternativeFile = new AsyncLocal<IFileAlternative>();
+    private readonly AsyncLocal<IFileAlternative> _alternativeFile = new();
     private readonly IOptions<StaticFileOptions> _staticFileOptions;
-    private readonly IEnumerable<IAlternativeFileProvider> alternativeFileProviders;
-    private readonly StaticFileMiddleware _base;
-    private readonly ILogger logger;
+    private readonly IEnumerable<IAlternativeFileProvider> _alternativeFileProviders;
+    private readonly StaticFileMiddleware _staticFileMiddleware;
+    private readonly ILogger _logger;
+
 
     public CompressedStaticFileMiddleware(
         RequestDelegate next,
@@ -52,35 +49,40 @@ public class CompressedStaticFileMiddleware
         {
             throw new Exception("No IAlternativeFileProviders where found, did you forget to add AddCompressedStaticFiles() in ConfigureServices?");
         }
-        logger = loggerFactory.CreateLogger<CompressedStaticFileMiddleware>();
+        
+        _logger = loggerFactory.CreateLogger<CompressedStaticFileMiddleware>();
 
-
-        this._staticFileOptions = staticFileOptions ?? throw new ArgumentNullException(nameof(staticFileOptions));
-        this.alternativeFileProviders = alternativeFileProviders;
+        _staticFileOptions = staticFileOptions ?? throw new ArgumentNullException(nameof(staticFileOptions));
+        _alternativeFileProviders = alternativeFileProviders;
         InitializeStaticFileOptions(hostingEnv, staticFileOptions);
 
-        _base = new StaticFileMiddleware(next, hostingEnv, staticFileOptions, loggerFactory);
+        _staticFileMiddleware = new StaticFileMiddleware(next, hostingEnv, staticFileOptions, loggerFactory);
     }
+
 
     private void InitializeStaticFileOptions(IHost hostingEnv, IOptions<StaticFileOptions> staticFileOptions)
     {
         staticFileOptions.Value.FileProvider = staticFileOptions.Value.FileProvider ?? hostingEnv.WebRootFileProvider;
         var contentTypeProvider = staticFileOptions.Value.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
+        
         if (contentTypeProvider is FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
         {
-            foreach(var alternativeFileProvider in alternativeFileProviders)
+            foreach(var alternativeFileProvider in _alternativeFileProviders)
             {
                 alternativeFileProvider.Initialize(fileExtensionContentTypeProvider);
             }
             
         }
+
         staticFileOptions.Value.ContentTypeProvider = contentTypeProvider;
 
         var originalPrepareResponse = staticFileOptions.Value.OnPrepareResponse;
+        
         staticFileOptions.Value.OnPrepareResponse = context =>
         {
             originalPrepareResponse(context);
-            var alternativeFile = this.alternativeFile.Value;
+            var alternativeFile = this._alternativeFile.Value;
+            
             if (alternativeFile != null)
             {
                 alternativeFile.Prepare(contentTypeProvider, context);
@@ -89,18 +91,28 @@ public class CompressedStaticFileMiddleware
         };
     }
 
+
+    /// <summary>
+    /// Processes a request to determine if it matches a known file, and if so, serves it. If there is an appropriate
+    /// compressed alternative file, it is served instead.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public Task Invoke(HttpContext context)
     {
         if (context.Request.Path.HasValue)
         {
             ProcessRequest(context);
         }
-        return _base.Invoke(context);
+
+        return _staticFileMiddleware.Invoke(context);
     }
+
 
     private void ProcessRequest(HttpContext context)
     {
         var fileSystem = _staticFileOptions.Value.FileProvider;
+
         var originalFile = fileSystem.GetFileInfo(context.Request.Path);
 
         if (!originalFile.Exists || originalFile.IsDirectory)
@@ -109,14 +121,15 @@ public class CompressedStaticFileMiddleware
         }
 
         //Find the smallest file from all our alternative file providers
-        var smallestAlternativeFile = alternativeFileProviders.Select(alternativeFileProvider => alternativeFileProvider.GetAlternative(context, fileSystem, originalFile))
+        var smallestAlternativeFile = _alternativeFileProviders.Select(alternativeFileProvider => alternativeFileProvider.GetAlternative(context, fileSystem, originalFile))
                                                               .Where(af => af != null)
                                                               .OrderBy(alternativeFile => alternativeFile?.Cost)
                                                               .FirstOrDefault();
+
         if (smallestAlternativeFile != null)
         {
             smallestAlternativeFile.Apply(context);
-            alternativeFile.Value = smallestAlternativeFile;
+            _alternativeFile.Value = smallestAlternativeFile;
         }
     }
 }

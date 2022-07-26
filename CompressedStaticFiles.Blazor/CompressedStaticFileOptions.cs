@@ -2,15 +2,28 @@
 
 namespace CompressedStaticFiles;
 
+
+/// <summary>
+/// Options for compressed static files.
+/// </summary>
 public class CompressedStaticFileOptions
 {
+    /// <summary>
+    /// Pre-compressed static files are delivered in responses when set to true.
+    /// </summary>
     public bool EnablePrecompressedFiles { get; set; } = true;
+
+
+    /// <summary>
+    /// Images are substituted for more efficient responses when set to true.
+    /// </summary>
     public bool EnableImageSubstitution { get; set; } = true;
+
 
     /// <summary>
     /// Used to prioritize image formats that contain higher quality per byte, if only size should be considered remove all entries.
     /// </summary>
-    public Dictionary<string, float> ImageSubstitutionCostRatio { get; set; } = new Dictionary<string, float>()
+    public readonly Dictionary<string, float> ImageSubstitutionCostRatio = new()
     {
         { "image/bmp", 2 },
         { "image/tiff", 1 },
