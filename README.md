@@ -61,7 +61,7 @@ Replace `UseStaticFiles();` with `UseCompressedStaticFiles();` in `Startup.Confi
 By default CompressedStaticFiles is configured to allow slightly larger files for some image formats as they can store more pixels per byte, this can be disabled by calling `CompressedStaticFileOptions.RemoveImageSubstitutionCostRatio()`.
 
 ## Example
-A example can be found in the [Example](https://github.com/AnderssonPeter/CompressedStaticFiles/tree/master/Example) directory.
+An example can be found in the [Example](https://github.com/material-blazor/CompressedStaticFiles.AspNetCore/tree/main/CompressedStaticFiles.Example) directory.
 By using this package the Lighthouse mobile performance went from `76` to `98` and the transferred size went from `526 kb` to `141 kb`.
 
 ## Acknowledgements
