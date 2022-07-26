@@ -20,9 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompressedStaticFiles.AspNe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompressedStaticFiles.AspNetCore", "CompressedStaticFiles.AspNetCore\CompressedStaticFiles.AspNetCore.csproj", "{0839E928-AD6E-493A-A7C0-311B8C8905E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{560BE25F-638D-4B3C-BE63-D427D6C516C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressedStaticFiles.Example", "CompressedStaticFiles.Example\CompressedStaticFiles.Example.csproj", "{07CB7CC2-D52F-4834-BA41-D962113551F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompressedStaticFiles.Example", "CompressedStaticFiles.Example\CompressedStaticFiles.Example.csproj", "{07CB7CC2-D52F-4834-BA41-D962113551F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{0839E928-AD6E-493A-A7C0-311B8C8905E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0839E928-AD6E-493A-A7C0-311B8C8905E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0839E928-AD6E-493A-A7C0-311B8C8905E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{560BE25F-638D-4B3C-BE63-D427D6C516C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{560BE25F-638D-4B3C-BE63-D427D6C516C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{560BE25F-638D-4B3C-BE63-D427D6C516C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{560BE25F-638D-4B3C-BE63-D427D6C516C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07CB7CC2-D52F-4834-BA41-D962113551F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07CB7CC2-D52F-4834-BA41-D962113551F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07CB7CC2-D52F-4834-BA41-D962113551F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
