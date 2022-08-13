@@ -19,3 +19,4 @@ updates:
     ignore:
       - dependency-name: "Microsoft.*"
         versions: ["7.x"]
+
