@@ -29,7 +29,10 @@ public class CompressedStaticFileMiddleware
     public CompressedStaticFileMiddleware(
         RequestDelegate next,
         IHost hostingEnv,
-        IOptions<StaticFileOptions> staticFileOptions, IOptions<CompressedStaticFileOptions> compressedStaticFileOptions, ILoggerFactory loggerFactory, IEnumerable<IAlternativeFileProvider> alternativeFileProviders)
+        IOptions<StaticFileOptions> staticFileOptions, 
+        IOptions<CompressedStaticFileOptions> compressedStaticFileOptions, 
+        ILoggerFactory loggerFactory, 
+        IEnumerable<IAlternativeFileProvider> alternativeFileProviders)
     {
         if (next == null)
         {
