@@ -30,7 +30,6 @@
 ---
 
 [![GithubActionsMainPublish](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsRelease?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsRelease)
-
 [![GithubActionsDevelop](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsWIP?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsWIP)
 
 ---
