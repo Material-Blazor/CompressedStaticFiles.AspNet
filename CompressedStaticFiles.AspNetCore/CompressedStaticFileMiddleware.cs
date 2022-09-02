@@ -48,6 +48,7 @@ public class CompressedStaticFileMiddleware
         {
             throw new ArgumentNullException(nameof(hostingEnv));
         }
+
         if (!alternativeFileProviders.Any())
         {
             throw new Exception("No IAlternativeFileProviders where found, did you forget to add AddCompressedStaticFiles() in ConfigureServices?");
