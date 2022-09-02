@@ -30,7 +30,6 @@ public class CompressedStaticFileMiddleware
         RequestDelegate next,
         IHost hostingEnv,
         IOptions<StaticFileOptions> staticFileOptions, 
-        IOptions<CompressedStaticFileOptions> compressedStaticFileOptions, 
         ILoggerFactory loggerFactory, 
         IEnumerable<IAlternativeFileProvider> alternativeFileProviders)
     {
