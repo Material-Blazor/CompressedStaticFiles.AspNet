@@ -29,7 +29,9 @@ public class CompressedStaticFileMiddleware
     public CompressedStaticFileMiddleware(
         RequestDelegate next,
         IHost hostingEnv,
-        IOptions<StaticFileOptions> staticFileOptions, IOptions<CompressedStaticFileOptions> compressedStaticFileOptions, ILoggerFactory loggerFactory, IEnumerable<IAlternativeFileProvider> alternativeFileProviders)
+        IOptions<StaticFileOptions> staticFileOptions, 
+        ILoggerFactory loggerFactory, 
+        IEnumerable<IAlternativeFileProvider> alternativeFileProviders)
     {
         if (next == null)
         {
@@ -45,6 +47,7 @@ public class CompressedStaticFileMiddleware
         {
             throw new ArgumentNullException(nameof(hostingEnv));
         }
+
         if (!alternativeFileProviders.Any())
         {
             throw new Exception("No IAlternativeFileProviders where found, did you forget to add AddCompressedStaticFiles() in ConfigureServices?");

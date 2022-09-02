@@ -1,17 +1,9 @@
-<p align="center">
-  <a href="https://github.com/AnderssonPeter/CompressedStaticFiles">
-    <img src="icon.svg" alt="Logo" width="80" height="80">
-  </a>
+# CompressedStaticFiles.AspNet
 
-  <h3 align="center">CompressedStaticFiles</h3>
 
-  <p align="center">
-    Send compressed static files to the browser without having to compress on demand, also has support for sending more advanced image formats when the browser has support for it.
-    <br />
-    <br />
-  </p>
-</p>
-<br />
+---
+
+
 
 [![NuGet version](https://img.shields.io/nuget/v/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20version&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
 [![NuGet version](https://img.shields.io/nuget/vpre/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20pre-release&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
@@ -49,7 +41,7 @@ This project allows you to serve precompressed files to the browser without havi
 ## Getting Started
 
 ### Precompress content
-Static nonimage files have to be precompressed using [Zopfli](https://en.wikipedia.org/wiki/Zopfli) and/or [Brotli](https://en.wikipedia.org/wiki/Brotli), see the example for how to do it with gulp.
+Static nonimage files have to be precompressed using [Gzip](https://en.wikipedia.org/wiki/Gzip) and/or [Brotli](https://en.wikipedia.org/wiki/Brotli), see the example CompressedStaticFiles.csproj for an automated methodology for producing compressed css & js files.
 The files must have the exact same filename as the source + `.br` or `.gzip` (`index.html` would be `index.html.br` for the Brotli version).
 
 ### Encode images
@@ -68,6 +60,11 @@ By using this package the Lighthouse mobile performance went from `76` to `98` a
 
 ## Acknowledgements
     
-This solution is based upon a clone of https://github.com/AnderssonPeter/CompressedStaticFiles.
-    
-Which was based upon @neyromant from the following issue https://github.com/aspnet/Home/issues/1584#issuecomment-227455026.
+This solution is developed from a clone of [AnderssonPeter/CompressedStaticFiles](https://github.com/AnderssonPeter/CompressedStaticFiles),
+which was based upon work by [@neyromant](https://github.com/neyromant) from the following issue [ASP.NET Issue #1584](https://github.com/aspnet/Home/issues/1584#issuecomment-227455026).
+
+We built this cloned project because:
+
+- We wanted to update to the currently supported version of .NET;
+- To make some refinements that were to our taste; and
+- To add MSBuild code to the [example CSPROJ file](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/blob/main/CompressedStaticFiles.Example/CompressedStaticFiles.Example.csproj#L37) to build Brotli and Gzip compressed CSS and JS files, using a method contributed by [SQL-MisterMagoo](https://github.com/SQL-MisterMagoo).

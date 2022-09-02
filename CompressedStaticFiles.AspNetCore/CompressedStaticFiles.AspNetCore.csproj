@@ -20,7 +20,6 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<RepositoryUrl>https://github.com/material-blazor/CompressedStaticFiles.AspNetCore</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -35,7 +34,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="icon.png" Pack="true" PackagePath=""/>
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
