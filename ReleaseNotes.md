@@ -10,7 +10,7 @@ Released 2022-09-15
 
 **Updates**
 
-- - Package updates.
+- Apply package updaets.
 
 **Breaking Changes**
 
