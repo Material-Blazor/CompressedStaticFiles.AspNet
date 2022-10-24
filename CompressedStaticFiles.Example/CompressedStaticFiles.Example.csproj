@@ -6,10 +6,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\CompressedStaticFiles.AspNetCore\CompressedStaticFiles.AspNet.csproj" />
-	</ItemGroup>
-
 
 
 
@@ -74,5 +70,8 @@
 		<Move SourceFiles="%(MyCompressedFiles.FullPath)" DestinationFiles="%(MyCompressedFiles.OriginalItemSpec)%(MyCompressedFiles.Extension)" />
 
 	</Target>
+	<ItemGroup>
+	  <ProjectReference Include="..\CompressedStaticFiles.AspNet\CompressedStaticFiles.AspNet.csproj" />
+	</ItemGroup>
 
 </Project>

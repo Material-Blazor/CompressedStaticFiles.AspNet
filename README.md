@@ -5,24 +5,24 @@
 
 
 
-[![NuGet version](https://img.shields.io/nuget/v/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20version&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
-[![NuGet version](https://img.shields.io/nuget/vpre/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20pre-release&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
-[![NuGet downloads](https://img.shields.io/nuget/dt/CompressedStaticFiles.AspNetCore?logo=nuget&label=nuget%20downloads&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNetCore/)
+[![NuGet version](https://img.shields.io/nuget/v/CompressedStaticFiles.AspNet?logo=nuget&label=nuget%20version&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNet/)
+[![NuGet version](https://img.shields.io/nuget/vpre/CompressedStaticFiles.AspNet?logo=nuget&label=nuget%20pre-release&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNet/)
+[![NuGet downloads](https://img.shields.io/nuget/dt/CompressedStaticFiles.AspNet?logo=nuget&label=nuget%20downloads&style=flat-square)](https://www.nuget.org/packages/CompressedStaticFiles.AspNet/)
 
 
 ---
 
 
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/material-blazor/CompressedStaticFiles.AspNetCore/main/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/issues)
-[![GitHub forks](https://img.shields.io/github/forks/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/network/members)
-[![GitHub stars](https://img.shields.io/github/stars/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/stargazers)
-[![GitHub stars](https://img.shields.io/github/watchers/Material-Blazor/CompressedStaticFiles.AspNetCore?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/watchers)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/material-blazor/CompressedStaticFiles.AspNet/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Material-Blazor/CompressedStaticFiles.AspNet?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Material-Blazor/CompressedStaticFiles.AspNet?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/Material-Blazor/CompressedStaticFiles.AspNet?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/stargazers)
+[![GitHub stars](https://img.shields.io/github/watchers/Material-Blazor/CompressedStaticFiles.AspNet?logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/watchers)
 
 ---
 
-[![GithubActionsMainPublish](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsRelease?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsRelease)
-[![GithubActionsDevelop](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNetCore/GithubActionsWIP?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/actions?query=workflow%3AGithubActionsWIP)
+[![GithubActionsMainPublish](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNet/GithubActionsRelease?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/actions?query=workflow%3AGithubActionsRelease)
+[![GithubActionsDevelop](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNet/GithubActionsWIP?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/actions?query=workflow%3AGithubActionsWIP)
 
 ---
 
@@ -55,7 +55,7 @@ Replace `UseStaticFiles();` with `UseCompressedStaticFiles();` in `Startup.Confi
 By default CompressedStaticFiles is configured to allow slightly larger files for some image formats as they can store more pixels per byte, this can be disabled by calling `CompressedStaticFileOptions.RemoveImageSubstitutionCostRatio()`.
 
 ## Example
-An example can be found in the [Example](https://github.com/material-blazor/CompressedStaticFiles.AspNetCore/tree/main/CompressedStaticFiles.Example) directory.
+An example can be found in the [Example](https://github.com/material-blazor/CompressedStaticFiles.AspNet/tree/main/CompressedStaticFiles.Example) directory.
 By using this package the Lighthouse mobile performance went from `76` to `98` and the transferred size went from `526 kb` to `141 kb`.
 
 ## Acknowledgements
@@ -67,4 +67,4 @@ We built this cloned project because:
 
 - We wanted to update to the currently supported version of .NET;
 - To make some refinements that were to our taste; and
-- To add MSBuild code to the [example CSPROJ file](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/blob/main/CompressedStaticFiles.Example/CompressedStaticFiles.Example.csproj#L37) to build Brotli and Gzip compressed CSS and JS files, using a method contributed by [SQL-MisterMagoo](https://github.com/SQL-MisterMagoo).
+- To add MSBuild code to the [example CSPROJ file](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/blob/main/CompressedStaticFiles.Example/CompressedStaticFiles.Example.csproj#L37) to build Brotli and Gzip compressed CSS and JS files, using a method contributed by [SQL-MisterMagoo](https://github.com/SQL-MisterMagoo).
