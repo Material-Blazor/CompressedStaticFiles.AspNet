@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 
-namespace CompressedStaticFiles;
+namespace CompressedStaticFiles.AspNet;
 
 
 /// <summary>

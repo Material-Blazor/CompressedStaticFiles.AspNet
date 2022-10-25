@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace CompressedStaticFiles;
+namespace CompressedStaticFiles.AspNet;
 
 /// <summary>
 /// Information detailing alternative compressed versions of the requested file.

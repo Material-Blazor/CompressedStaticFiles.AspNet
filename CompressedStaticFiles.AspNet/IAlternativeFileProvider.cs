@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 
-namespace CompressedStaticFiles;
+namespace CompressedStaticFiles.AspNet;
 
 
 /// <summary>

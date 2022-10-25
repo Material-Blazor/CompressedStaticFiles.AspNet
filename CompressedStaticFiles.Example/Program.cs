@@ -1,5 +1,5 @@
 using CompressedStaticFiles.Example.Data;
-using CompressedStaticFiles;
+using CompressedStaticFiles.AspNet;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.ResponseCompression;

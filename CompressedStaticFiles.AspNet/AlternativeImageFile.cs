@@ -4,7 +4,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace CompressedStaticFiles;
+namespace CompressedStaticFiles.AspNet;
 
 
 /// <summary>
