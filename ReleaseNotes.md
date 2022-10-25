@@ -4,25 +4,12 @@ title: ReleaseNotes
 ---
 # Release Notes
 
-#### [1.0.1](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/tree/1.0.1)
 
-Released 2022-09-15
+#### [1.0.0](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/tree/1.0.0)
 
-**Updates**
+Released 2022-10-26
 
-- Apply package updaets.
-
-**Breaking Changes**
-
-**Known issues**
-
-<br />
-
-#### [1.0.0](https://github.com/Material-Blazor/CompressedStaticFiles.AspNetCore/tree/1.0.0)
-
-Released 2022-09-02
-
-First full release of CompressedStaticFiles.AspNetCore.
+First full release of CompressedStaticFiles.AspNet
 
 **Updates**
 

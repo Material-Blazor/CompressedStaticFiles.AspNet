@@ -5,8 +5,10 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-
-
+	
+	<ItemGroup>
+		<ProjectReference Include="..\CompressedStaticFiles.AspNet\CompressedStaticFiles.AspNet.csproj" />
+	</ItemGroup>
 
 
 	<!--All subsequent code contributed by https://github.com/SQL-MisterMagoo-->
@@ -33,9 +35,6 @@
 	<!-- The next two lines are Copyright (c) .NET Foundation. All rights reserved. -->
 	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.BrotliCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
 	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.GzipCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
-
-
-
 
 	<!--
 		This target runs after build. If you want to run after Publish, change:
@@ -70,8 +69,5 @@
 		<Move SourceFiles="%(MyCompressedFiles.FullPath)" DestinationFiles="%(MyCompressedFiles.OriginalItemSpec)%(MyCompressedFiles.Extension)" />
 
 	</Target>
-	<ItemGroup>
-	  <ProjectReference Include="..\CompressedStaticFiles.AspNet\CompressedStaticFiles.AspNet.csproj" />
-	</ItemGroup>
-
+	
 </Project>
