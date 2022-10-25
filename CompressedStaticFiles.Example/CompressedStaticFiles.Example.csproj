@@ -23,7 +23,7 @@
 
 		<!-- First, we strip the property value back to the root SDKs level and then down into the WebAssembly SDK -->
 		<_SDKRoot>$(ILLinkTasksAssembly.Substring(0,$(ILLinkTasksAssembly.LastIndexOf('Microsoft.NET.ILLink.Tasks'))))</_SDKRoot>
-		<BlazorWebAssemblySdkDirectoryRoot>$(_SDKRoot)\Microsoft.NET.Sdk.BlazorWebAssembly\</BlazorWebAssemblySdkDirectoryRoot>
+		<BlazorWebAssemblySdkDirectoryRoot>$(_SDKRoot)Microsoft.NET.Sdk.BlazorWebAssembly\</BlazorWebAssemblySdkDirectoryRoot>
 
 		<!-- The next four lines are Copyright (c) .NET Foundation. All rights reserved. -->
 		<_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' == 'Core'">net6.0</_BlazorWebAssemblySdkTasksTFM>
@@ -57,6 +57,9 @@
 		</GZipCompress>
 
 		<!--Call the BlazorWebAssembly Task BrotliCompress and store the results in MyCompressedFiles-->
+		<!--<Message Importance="High" Text="======= Brotli details TA=$(_BlazorWebAssemblySdkToolAssembly)" />
+		<Message Importance="High" Text="======= Brotli details TE=$(_RazorSdkDotNetHostFileName)" />
+		<Message Importance="High" Text="======= Brotli details TP=$(_RazorSdkDotNetHostDirectory)" />-->
 		<BrotliCompress OutputDirectory="$(IntermediateOutputPath)compress\" FilesToCompress="@(MyStaticFiles)" ToolAssembly="$(_BlazorWebAssemblySdkToolAssembly)" ToolExe="$(_RazorSdkDotNetHostFileName)" ToolPath="$(_RazorSdkDotNetHostDirectory)">
 			<Output TaskParameter="CompressedFiles" ItemName="MyCompressedFiles" />
 		</BrotliCompress>
