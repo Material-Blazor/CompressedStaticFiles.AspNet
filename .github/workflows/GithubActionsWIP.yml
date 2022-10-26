@@ -101,7 +101,7 @@ jobs:
     - id: get
       run: |
         echo "ci.$(date +'%Y-%m-%d--%H%M')"
-        echo "{suffix}::{ci.$(date +'%Y-%m-%d--%H%M')}" >> $GITHUB_ENV
+        echo "ciSuffix2::ci.$(date +'%Y-%m-%d--%H%M')" >> $GITHUB_ENV
       
       
 ############################################################################################################
@@ -164,10 +164,10 @@ jobs:
       if: github.event_name != 'workflow_dispatch'
 
     - name: Build CompressedStaticFiles.AspNetCore 🔧
-      run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} --version-suffix ${env.suffix}
+      run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} --version-suffix ${env.ciSuffix}
 
     - name: Generate the NuGet package 🔧
-      run: dotnet pack ${{env.projectCSFB}} --no-build --configuration ${{env.buildConfiguration}} --output ${{env.outputCSFB}} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg --version-suffix ${env.suffix}
+      run: dotnet pack ${{env.projectCSFB}} --no-build --configuration ${{env.buildConfiguration}} --output ${{env.outputCSFB}} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg --version-suffix ${env.ciSuffix}
 
     - name: Display CompressedStaticFiles.AspNetCore package output Ꙫ
       run: dir ${{env.outputCSFB}}
