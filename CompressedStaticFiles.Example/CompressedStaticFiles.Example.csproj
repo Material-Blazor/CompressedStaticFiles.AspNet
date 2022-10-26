@@ -25,9 +25,7 @@
 		<_SDKRoot>$(ILLinkTasksAssembly.Substring(0,$(ILLinkTasksAssembly.LastIndexOf('Microsoft.NET.ILLink.Tasks'))))</_SDKRoot>
 		<BlazorWebAssemblySdkDirectoryRoot>$(_SDKRoot)Microsoft.NET.Sdk.BlazorWebAssembly\</BlazorWebAssemblySdkDirectoryRoot>
 
-		<!-- The next four lines are Copyright (c) .NET Foundation. All rights reserved. -->
-		<_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' == 'Core'">net6.0</_BlazorWebAssemblySdkTasksTFM>
-		<_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' != 'Core'">net472</_BlazorWebAssemblySdkTasksTFM>
+		<!-- The next two lines are derived from examples posted by the .NET Foundation. -->
 		<_BlazorWebAssemblySdkTasksAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\net472\Microsoft.NET.Sdk.BlazorWebAssembly.Tasks.dll</_BlazorWebAssemblySdkTasksAssembly>
 		<_BlazorWebAssemblySdkToolAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\$(TargetFramework)\Microsoft.NET.Sdk.BlazorWebAssembly.Tool.dll</_BlazorWebAssemblySdkToolAssembly>
 	</PropertyGroup>

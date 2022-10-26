@@ -87,12 +87,7 @@ jobs:
     steps:
     - id: get
       run: |
-        echo "::set-output name=identifier::${GITHUB_REF/refs\/tags\//}"
-    - id: show
-      run: |
-        echo "${{ steps.get.outputs.identifier }}"
-    outputs:
-      identifier: ${{ steps.get.outputs.identifier }}
+        echo "{version}=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
 ############################################################################################################
 # Store the branch information
 ############################################################################################################
@@ -102,12 +97,7 @@ jobs:
     steps:
     - id: get
       run: |
-        echo "::set-output name=identifier::${GITHUB_REF/refs\/heads\//}"
-    - id: show
-      run: |
-        echo "${{ steps.get.outputs.identifier }}"
-    outputs:
-      identifier: ${{ steps.get.outputs.identifier }}
+        echo "{branch}=${GITHUB_REF/refs\/heads\//}" >> $GITHUB_OUTPUT
 
 ############################################################################################################
 # Build package and deploy
@@ -159,7 +149,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{needs.version.outputs.identifier}}
-        release_name: Release ${{needs.version.outputs.identifier}}
+        tag_name: ${version}
+        release_name: Release ${version}
         draft: false
         prerelease: false
