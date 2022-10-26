@@ -28,8 +28,8 @@
 		<!-- The next four lines are Copyright (c) .NET Foundation. All rights reserved. -->
 		<_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' == 'Core'">net6.0</_BlazorWebAssemblySdkTasksTFM>
 		<_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' != 'Core'">net472</_BlazorWebAssemblySdkTasksTFM>
-		<_BlazorWebAssemblySdkTasksAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\$(_BlazorWebAssemblySdkTasksTFM)\Microsoft.NET.Sdk.BlazorWebAssembly.Tasks.dll</_BlazorWebAssemblySdkTasksAssembly>
-		<_BlazorWebAssemblySdkToolAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\net6.0\Microsoft.NET.Sdk.BlazorWebAssembly.Tool.dll</_BlazorWebAssemblySdkToolAssembly>
+		<_BlazorWebAssemblySdkTasksAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\net472\Microsoft.NET.Sdk.BlazorWebAssembly.Tasks.dll</_BlazorWebAssemblySdkTasksAssembly>
+		<_BlazorWebAssemblySdkToolAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\$(TargetFramework)\Microsoft.NET.Sdk.BlazorWebAssembly.Tool.dll</_BlazorWebAssemblySdkToolAssembly>
 	</PropertyGroup>
 
 	<!-- The next two lines are Copyright (c) .NET Foundation. All rights reserved. -->
@@ -42,6 +42,11 @@
 		- "ProjectDir" in MyStaticFiles should be changed to "PublishDir"
 	-->
 	<Target Name="CustomGZipAndBrotliCompression" AfterTargets="Build">
+
+		<Message Importance="High" Text="======= Gzip/Brotli task assembly details=$(_BlazorWebAssemblySdkTasksAssembly)" />
+		<Message Importance="High" Text="======= Brotli tool assembly details=$(_BlazorWebAssemblySdkToolAssembly)" />
+		<Message Importance="High" Text="======= Brotli tool executable details=$(_RazorSdkDotNetHostFileName)" />
+		<Message Importance="High" Text="======= Brotli tool path details=$(_RazorSdkDotNetHostDirectory)" />
 
 		<!--************* THIS IS WHERE YOU CHOOSE WHAT TO COMPRESS *****************
 			you probably don't want to change anything else - just this ItemGroup-->
@@ -57,10 +62,7 @@
 		</GZipCompress>
 
 		<!--Call the BlazorWebAssembly Task BrotliCompress and store the results in MyCompressedFiles-->
-		<!--<Message Importance="High" Text="======= Brotli details TA=$(_BlazorWebAssemblySdkToolAssembly)" />
-		<Message Importance="High" Text="======= Brotli details TE=$(_RazorSdkDotNetHostFileName)" />
-		<Message Importance="High" Text="======= Brotli details TP=$(_RazorSdkDotNetHostDirectory)" />-->
-		<BrotliCompress OutputDirectory="$(IntermediateOutputPath)compress\" FilesToCompress="@(MyStaticFiles)" ToolAssembly="$(_BlazorWebAssemblySdkToolAssembly)" ToolExe="$(_RazorSdkDotNetHostFileName)" ToolPath="$(_RazorSdkDotNetHostDirectory)">
+		<BrotliCompress FilesToCompress="@(MyStaticFiles)" OutputDirectory="$(IntermediateOutputPath)compress\" ToolAssembly="$(_BlazorWebAssemblySdkToolAssembly)" ToolExe="$(_RazorSdkDotNetHostFileName)" ToolPath="$(_RazorSdkDotNetHostDirectory)">
 			<Output TaskParameter="CompressedFiles" ItemName="MyCompressedFiles" />
 		</BrotliCompress>
 
