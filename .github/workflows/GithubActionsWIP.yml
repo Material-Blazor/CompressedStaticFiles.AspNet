@@ -13,8 +13,8 @@ env:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   outputCSFB: ${{github.workspace}}/siteCSFB
-  projectCSFB: 'CompressedStaticFiles.AspNetCore/CompressedStaticFiles.AspNetCore.csproj'
-  projectTest: 'CompressedStaticFiles.AspNetCore.Test/CompressedStaticFiles.AspNetCore.Test.csproj'
+  projectCSFB: 'CompressedStaticFiles.AspNet/CompressedStaticFiles.AspNet.csproj'
+  projectTest: 'CompressedStaticFiles.AspNet.Test/CompressedStaticFiles.AspNet.Test.csproj'
 
 jobs:
 
@@ -24,15 +24,15 @@ jobs:
   is-on-fork:
     name: Running on a fork?
     runs-on: ubuntu-latest
-    if: github.repository != 'Material-Blazor/CompressedStaticFiles.AspNetCore'
+    if: github.repository != 'Material-Blazor/CompressedStaticFiles.AspNet'
     steps:
     - name: Nothing to see here
       run: echo ""
 
   is-on-material-blazor:
-    name: Running on Material-Blazor/CompressedStaticFiles.AspNetCore?
+    name: Running on Material-Blazor/CompressedStaticFiles.AspNet?
     runs-on: ubuntu-latest
-    if: github.repository == 'Material-Blazor/CompressedStaticFiles.AspNetCore'
+    if: github.repository == 'Material-Blazor/CompressedStaticFiles.AspNet'
     steps:
     - name: Nothing to see here
       run: echo ""

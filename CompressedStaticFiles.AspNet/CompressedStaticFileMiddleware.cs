@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using IHost = Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
 
 
-namespace CompressedStaticFiles;
+namespace CompressedStaticFiles.AspNet;
 
 
 /// <summary>
