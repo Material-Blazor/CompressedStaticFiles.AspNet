@@ -128,25 +128,25 @@ jobs:
     - name: Display CompressedStaticFiles.AspNetCore package output Ꙫ
       run: dir ${{env.outputCSFB}}
 
-    - name: Upload Package 🚀
-      run: dotnet nuget push ${{env.outputCSFB}}\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+    #- name: Upload Package 🚀
+    #  run: dotnet nuget push ${{env.outputCSFB}}\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
 
 ############################################################################################################
 # Create release
 ############################################################################################################
-  create-release:
-    name: Create release
-    needs: [build-and-deploy-package, branch, version, is-on-material-blazor]
+  #create-release:
+  #  name: Create release
+  #  needs: [build-and-deploy-package, branch, version, is-on-material-blazor]
 
-    runs-on: ubuntu-latest
+  #  runs-on: ubuntu-latest
 
-    steps:
-    - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${version}
-        release_name: Release ${version}
-        draft: false
-        prerelease: false
+  #  steps:
+  #  - name: Create Release
+  #    uses: actions/create-release@v1
+  #    env:
+  #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #    with:
+  #      tag_name: ${version}
+  #      release_name: Release ${version}
+  #      draft: false
+  #      prerelease: false

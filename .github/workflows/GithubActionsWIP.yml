@@ -93,7 +93,7 @@ jobs:
       shell: bash
       run: |
         echo "ci.$(date +'%Y-%m-%d--%H%M')"
-        echo "ciSuffix2::ci.$(date +'%Y-%m-%d--%H%M')" >> $GITHUB_ENV
+        echo "ciSuffix2=ci.$(date +'%Y-%m-%d--%H%M')" >> $GITHUB_ENV
       
       
 ############################################################################################################
