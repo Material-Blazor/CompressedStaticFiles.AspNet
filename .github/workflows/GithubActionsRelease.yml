@@ -63,7 +63,8 @@ jobs:
         include-prerelease: true
 
     - name: Get the version
-        echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+      run:  echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+      shell: bash
 
     - name: Build CompressedStaticFiles.AspNetCore 🔧
       run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} -p:Version=${{env.version}}

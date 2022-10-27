@@ -45,7 +45,7 @@ jobs:
       run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} --version-suffix ${{env.ciSuffix}}
 
     - name: Generate the NuGet package 🔧
-      run: dotnet pack ${{env.projectCSFB}} --no-build --configuration ${{env.buildConfiguration}} --output ${{env.outputCSFB}} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:Version=${{env.ciSuffix}}
+      run: dotnet pack ${{env.projectCSFB}} --no-build --configuration ${{env.buildConfiguration}} --output ${{env.outputCSFB}} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:Version=1.0.0-${{env.ciSuffix}}
 
     - name: Display CompressedStaticFiles.AspNetCore package output Ꙫ
       run: dir ${{env.outputCSFB}}
