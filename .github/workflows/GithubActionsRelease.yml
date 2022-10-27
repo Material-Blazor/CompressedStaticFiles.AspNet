@@ -82,10 +82,11 @@ jobs:
 ############################################################################################################
   version:
     name: Set version identifier
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - id: get
+      shell: bash
       run: |
         echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 ############################################################################################################
@@ -93,9 +94,10 @@ jobs:
 ############################################################################################################
   branch:
     name: Set branch identifier
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - id: get
+      shell: bash
       run: |
         echo "{branch}=${GITHUB_REF/refs\/heads\//}" >> $GITHUB_ENV
 
