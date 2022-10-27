@@ -97,49 +97,19 @@ jobs:
       
       
 ############################################################################################################
-# Run the test project. Should this fail, the deploy step (job deployghpages) is skipped
-############################################################################################################
-  test:
-    name: Run .NET tests
-    runs-on: windows-latest
-    env:
-      config: 'Release'
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET6
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '6.0.x'
-        include-prerelease: true
-#    - name: Install dependencies
-#      run: dotnet restore --verbosity normal
-#    - name: Build
-#      run: dotnet build --configuration $config --no-restore
-#    - name: Test
-#      run: dotnet test --configuration $config --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=lcov
-#    - name: Find lcov file path
-#      id: find-lcov-file-path
-#      shell: pwsh
-#      run: |
-#        $FilePath = (Get-ChildItem CompressedStaticFiles.Tests\TestResults\* | Select-Object -First 1 | Get-ChildItem).FullName
-#        Write-Host ::set-output name=path::$FilePath
-#    - name: Publish coverage report to coveralls.io
-#      uses: coverallsapp/github-action@master
-#      with:
-#        github-token: ${{ secrets.GITHUB_TOKEN }}
-#        path-to-lcov: ${{ steps.find-lcov-file-path.outputs.path }}
-      
-############################################################################################################
 # Build nuget package
 ############################################################################################################
   build-package:
     name: Build nuget package
-    needs: [info, test, version]
+    needs: [info, version]
 
     runs-on: windows-latest
 
     steps:
+    - name: Set ciSuffix as env variable
+      run: echo "ciSuffix=ci.$(date +'%Y-%m-%d--%H%M')" >> $GITHUB_ENV
+      shell: bash
+
     - name: Checkout repository under $GITHUB_WORKSPACE so the job can access it 🛎️
       uses: actions/checkout@v3
       with:
@@ -152,10 +122,10 @@ jobs:
         include-prerelease: true
 
     - name: Build CompressedStaticFiles.AspNetCore 🔧
-      run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} --version-suffix ${env.ciSuffix}
+      run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} --version-suffix ${{env.ciSuffix}}
 
     - name: Generate the NuGet package 🔧
-      run: dotnet pack ${{env.projectCSFB}} --no-build --configuration ${{env.buildConfiguration}} --output ${{env.outputCSFB}} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg --version-suffix ${env.ciSuffix}
+      run: dotnet pack ${{env.projectCSFB}} --no-build --configuration ${{env.buildConfiguration}} --output ${{env.outputCSFB}} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg --version-suffix ${{env.ciSuffix}}
 
     - name: Display CompressedStaticFiles.AspNetCore package output Ꙫ
       run: dir ${{env.outputCSFB}}

@@ -42,63 +42,6 @@ jobs:
       run: echo ""
 
 ############################################################################################################
-# Run the test project. Should this fail, we don't perform any deploy action
-############################################################################################################
-  test:
-    name: Run .NET tests
-    runs-on: windows-latest
-    env:
-      config: 'Release'
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET6
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '6.0.x'
-        include-prerelease: true
-#    - name: Install dependencies
-#      run: dotnet restore --verbosity normal
-#    - name: Build
-#      run: dotnet build --configuration $config --no-restore
-#    - name: Test
-#      run: dotnet test --configuration $config --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=lcov
-#    - name: Find lcov file path
-#      id: find-lcov-file-path
-#      shell: pwsh
-#      run: |
-#        $FilePath = (Get-ChildItem CompressedStaticFiles.Tests\TestResults\* | Select-Object -First 1 | Get-ChildItem).FullName
-#        Write-Host ::set-output name=path::$FilePath
-#    - name: Publish coverage report to coveralls.io
-#      uses: coverallsapp/github-action@master
-#      with:
-#        github-token: ${{ secrets.GITHUB_TOKEN }}
-#        path-to-lcov: ${{ steps.find-lcov-file-path.outputs.path }}
-
-############################################################################################################
-# Store the version information
-############################################################################################################
-  version:
-    name: Set version identifier
-    runs-on: windows-latest
-    steps:
-    - id: get
-      shell: bash
-      run: |
-        echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-############################################################################################################
-# Store the branch information
-############################################################################################################
-  branch:
-    name: Set branch identifier
-    runs-on: windows-latest
-    steps:
-    - id: get
-      shell: bash
-      run: |
-        echo "{branch}=${GITHUB_REF/refs\/heads\//}" >> $GITHUB_ENV
-
-############################################################################################################
 # Build package and deploy
 ############################################################################################################
   build-and-deploy-package:
@@ -119,6 +62,9 @@ jobs:
         dotnet-version: '6.0.x'
         include-prerelease: true
 
+    - name: Get the version
+        echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
     - name: Build CompressedStaticFiles.AspNetCore 🔧
       run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} -p:Version=${{env.version}}
 
@@ -136,11 +82,14 @@ jobs:
 ############################################################################################################
   #create-release:
   #  name: Create release
-  #  needs: [build-and-deploy-package, branch, version, is-on-material-blazor]
+  #  needs: [build-and-deploy-package, is-on-material-blazor]
 
   #  runs-on: ubuntu-latest
 
   #  steps:
+    #- name: Get the version
+    #    echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
   #  - name: Create Release
   #    uses: actions/create-release@v1
   #    env:
