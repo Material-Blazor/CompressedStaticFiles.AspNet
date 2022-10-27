@@ -12,8 +12,6 @@ on:
   push:
     tags:
       - '*' # Push events to matching *, i.e. 1.0, 20.15.10
-    branches:
-      - experimental-release-workflow
 
 env:
   buildPlatform: 'Any CPU'
@@ -133,7 +131,6 @@ jobs:
 
     - name: Upload Package 🚀
       run: dotnet nuget push ${{env.outputCSFB}}\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-      if: needs.branch.outputs.identifier != 'experimental-release-workflow' # this check is important to allow testing this workflow on a non-main branch without deploying to nuget: this critical action is not performed when not on main.
 
 ############################################################################################################
 # Create release
@@ -146,7 +143,6 @@ jobs:
 
     steps:
     - name: Create Release
-      if: needs.branch.outputs.identifier != 'experimental-release-workflow' # this check is important to allow testing this workflow on a non-main branch without deploying to nuget: this critical action is not performed when not on main.
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
