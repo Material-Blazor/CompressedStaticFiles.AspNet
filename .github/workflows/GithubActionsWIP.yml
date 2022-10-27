@@ -47,6 +47,7 @@ jobs:
     steps:
 
     - name: DotNet info
+      run: dotnet --info
 
     - name: Set ciSuffix as env variable
       run: echo "ciSuffix=ci.$(date +'%Y-%m-%d--%H%M')" >> $GITHUB_ENV
