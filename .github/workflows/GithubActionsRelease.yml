@@ -46,7 +46,7 @@ jobs:
 ############################################################################################################
   build-and-deploy-package:
     name: Build nuget package & deploy to nuget
-    needs: [version, branch, is-on-material-blazor]
+    needs: [is-on-material-blazor]
 
     runs-on: windows-latest
 
