@@ -21,8 +21,8 @@
 
 ---
 
-[![GithubActionsMainPublish](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNet/GithubActionsRelease?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/actions?query=workflow%3AGithubActionsRelease)
-[![GithubActionsDevelop](https://img.shields.io/github/workflow/status/Material-Blazor/CompressedStaticFiles.AspNet/GithubActionsWIP?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/actions?query=workflow%3AGithubActionsWIP)
+[![GithubActionsRelease](https://img.shields.io/github/actions/workflow/status/Material-Blazor/CompressedStaticFiles.AspNet/GithubActionsRelease.yml?label=actions%20release&logo=github&style=flat-square)](https://github.com/Material-Blazor/HttpSecurity.AspNet/actions/workflows/GithubActionsRelease.yml)
+[![GithubActionsWIP](https://img.shields.io/github/actions/workflow/status/Material-Blazor/CompressedStaticFiles.AspNet/GithubActionsWIP.yml?label=actions%20wip&logo=github&style=flat-square)](https://github.com/Material-Blazor/HttpSecurity.AspNet/actions/workflows/GithubActionsWIP.yml)
 
 ---
 
