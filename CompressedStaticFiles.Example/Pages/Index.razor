@@ -27,6 +27,10 @@
 <h1 style="margin-top: 48px;">How to detect file compression</h1>
 
 <p>
+    To demonstrate the compressed files execute the 'LocalBuild.cmd' at the root of this repository and follow
+    the instructions to browse to the demonstration.
+</p>
+<p>
     Press F12 to enter your browser's development tools and select the network tab (we did this on Edge here).
     Click any css or js file (except for blazor.server.js, which as an ASP.NET framework file isn't compressed)
     and you will see that either Brotli or GZIP compression has been applied if your browser supports compression.
@@ -43,71 +47,12 @@
 </p>
 
 <pre><code>
-    &lt;PropertyGroup&gt;
-        &lt;!--Paths to tools, tasks, and extensions are calculated relative to the BlazorWebAssemblySdkDirectoryRoot.
-            But there does not seem to be a property for that, so after much trial and error, using the property 
-            ILLinkTasksAssembly seems most reliable as it contains the same value whether the build is run from VS 
-            or the command line, unlike many others such as MSBuildSDKsPath.
-            If a better property is identified, this can be changed.            
-        --&gt;
-
-        &lt;!-- First, we strip the property value back to the root SDKs level and then down into the WebAssembly SDK --&gt;
-        &lt;_SDKRoot&gt;$(ILLinkTasksAssembly.Substring(0,$(ILLinkTasksAssembly.LastIndexOf('Microsoft.NET.ILLink.Tasks'))))&lt;/_SDKRoot&gt;
-        &lt;BlazorWebAssemblySdkDirectoryRoot&gt;$(_SDKRoot)\Microsoft.NET.Sdk.BlazorWebAssembly\&lt;/BlazorWebAssemblySdkDirectoryRoot&gt;
-
-        &lt;!-- The next four lines are Copyright (c) .NET Foundation. All rights reserved. --&gt;
-        &lt;_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' == 'Core'"&gt;net6.0&lt;/_BlazorWebAssemblySdkTasksTFM&gt;
-        &lt;_BlazorWebAssemblySdkTasksTFM Condition=" '$(MSBuildRuntimeType)' != 'Core'"&gt;net472&lt;/_BlazorWebAssemblySdkTasksTFM&gt;
-        &lt;_BlazorWebAssemblySdkTasksAssembly&gt;$(BlazorWebAssemblySdkDirectoryRoot)tools\$(_BlazorWebAssemblySdkTasksTFM)\Microsoft.NET.Sdk.BlazorWebAssembly.Tasks.dll&lt;/_BlazorWebAssemblySdkTasksAssembly&gt;
-        &lt;_BlazorWebAssemblySdkToolAssembly&gt;$(BlazorWebAssemblySdkDirectoryRoot)tools\net6.0\Microsoft.NET.Sdk.BlazorWebAssembly.Tool.dll&lt;/_BlazorWebAssemblySdkToolAssembly&gt;
-    &lt;/PropertyGroup&gt;
-
-    &lt;!-- The next two lines are Copyright (c) .NET Foundation. All rights reserved. --&gt;
-    &lt;UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.BrotliCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" /&gt;
-    &lt;UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.GzipCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" /&gt;
-
-
-
-
-    &lt;!--
-        This target runs after build. If you want to run after Publish, change:
-        - AfterTargets should be set to "Build"
-        - "ProjectDir" in MyStaticFiles should be changed to "PublishDir"
-    --&gt;
-    &lt;Target Name="CustomGZipAndBrotliCompression" AfterTargets="Build"&gt;
-
-        &lt;!--************* THIS IS WHERE YOU CHOOSE WHAT TO COMPRESS *****************
-            you probably don't want to change anything else - just this ItemGroup--&gt;
-
-        &lt;ItemGroup&gt;
-            &lt;MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.css" /&gt;
-            &lt;MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.js" /&gt;
-        &lt;/ItemGroup&gt;
-
-        &lt;!--Call the BlazorWebAssembly Task GZipCompress and store the results in MyCompressedFiles--&gt;
-        &lt;GZipCompress FilesToCompress="@@(MyStaticFiles)" OutputDirectory="$(IntermediateOutputPath)compress\"&gt;
-            &lt;Output TaskParameter="CompressedFiles" ItemName="MyCompressedFiles" /&gt;
-        &lt;/GZipCompress&gt;
-
-        &lt;!--Call the BlazorWebAssembly Task BrotliCompress and store the results in MyCompressedFiles--&gt;
-        &lt;BrotliCompress OutputDirectory="$(IntermediateOutputPath)compress\" FilesToCompress="@@(MyStaticFiles)" ToolAssembly="$(_BlazorWebAssemblySdkToolAssembly)" ToolExe="$(_RazorSdkDotNetHostFileName)" ToolPath="$(_RazorSdkDotNetHostDirectory)"&gt;
-            &lt;Output TaskParameter="CompressedFiles" ItemName="MyCompressedFiles" /&gt;
-        &lt;/BrotliCompress&gt;
-
-        &lt;!--Log what we have done--&gt;
-        &lt;Message Importance="High" Text="======= Brotli/GZip Compression For @@(MyCompressedFiles-&gt;Count()) Static Files =======" /&gt;
-        &lt;Message Importance="High" Text=" Compressed: %(MyCompressedFiles.OriginalItemSpec)%(MyCompressedFiles.Extension)" /&gt;
-
-        &lt;!--Rename/move the compressed files back to to the correct place/names as they have "hashed" names at this stage.--&gt;
-        &lt;Move SourceFiles="%(MyCompressedFiles.FullPath)" DestinationFiles="%(MyCompressedFiles.OriginalItemSpec)%(MyCompressedFiles.Extension)" /&gt;
-
-    &lt;/Target&gt;
-    &lt;ItemGroup&gt;
-        &lt;ProjectReference Include="..\CompressedStaticFiles.AspNetCore\CompressedStaticFiles.AspNetCore.csproj" /&gt;
-    &lt;/ItemGroup&gt;
-    &lt;ItemGroup&gt;
-        &lt;Folder Include="wwwroot\images\" /&gt;
-    &lt;/ItemGroup&gt;
+	<!--Compression directives (Note that the patterns are relative to wwwroot)-->
+	&lt;PropertyGroup&gt;
+		&lt;CompressionIncludePatterns&gt;$(CompressionIncludePatterns);**/*.css;**/*.js&lt;/CompressionIncludePatterns&gt;
+		&lt;BuildCompressionFormats&gt;gzip;brotli&lt;/BuildCompressionFormats&gt;
+		&lt;PublishCompressionFormats&gt;gzip;brotli&lt;/&lt;PublishCompressionFormats&gt;
+	&lt;/PropertyGroup&gt;
 </code></pre>
 
 <h1 style="margin-top: 48px;">Attribution</h1>
@@ -115,5 +60,4 @@
 <p>Thanks to the following:</p>
 <ul>
     <li>This project is a fork of Peter Andersson's from whose original <a href="https://github.com/AnderssonPeter/CompressedStaticFiles" target="_blank">CompressedStaticFiles repo</a>; and</li>
-    <li><a href="https://github.com/SQL-MisterMagoo" target="_blank">SQL-MisterMagoo</a> for providing the MSBUILD code that performs Brotli and GZIP static file compression.</li>
 </ul>

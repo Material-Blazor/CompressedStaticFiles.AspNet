@@ -9,9 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
 		.github\dependabot.yml = .github\dependabot.yml
+		Directory.Build.props = Directory.Build.props
 		.github\workflows\GithubActionsRelease.yml = .github\workflows\GithubActionsRelease.yml
 		.github\workflows\GithubActionsWIP.yml = .github\workflows\GithubActionsWIP.yml
 		LICENSE = LICENSE
+		LocalBuild.cmd = LocalBuild.cmd
 		README.md = README.md
 		ReleaseNotes.md = ReleaseNotes.md
 	EndProjectSection

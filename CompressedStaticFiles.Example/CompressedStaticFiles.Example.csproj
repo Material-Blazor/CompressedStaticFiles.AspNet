@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -10,67 +9,11 @@
 		<ProjectReference Include="..\CompressedStaticFiles.AspNet\CompressedStaticFiles.AspNet.csproj" />
 	</ItemGroup>
 
-
-	<!--All subsequent code contributed by https://github.com/SQL-MisterMagoo-->
-
+	<!--Compression directives (Note that the patterns are relative to wwwroot)-->
 	<PropertyGroup>
-		<!--Paths to tools, tasks, and extensions are calculated relative to the BlazorWebAssemblySdkDirectoryRoot.
-			But there does not seem to be a property for that, so after much trial and error, using the property 
-			ILLinkTasksAssembly seems most reliable as it contains the same value whether the build is run from VS 
-			or the command line, unlike many others such as MSBuildSDKsPath.
-			If a better property is identified, this can be changed.			
-		-->
-
-		<!-- First, we strip the property value back to the root SDKs level and then down into the WebAssembly SDK -->
-		<_SDKRoot>$(ILLinkTasksAssembly.Substring(0,$(ILLinkTasksAssembly.LastIndexOf('Microsoft.NET.ILLink.Tasks'))))</_SDKRoot>
-		<BlazorWebAssemblySdkDirectoryRoot>$(_SDKRoot)Microsoft.NET.Sdk.BlazorWebAssembly\</BlazorWebAssemblySdkDirectoryRoot>
-
-		<!-- The next two lines are derived from examples posted by the .NET Foundation. -->
-		<_BlazorWebAssemblySdkTasksAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\net472\Microsoft.NET.Sdk.BlazorWebAssembly.Tasks.dll</_BlazorWebAssemblySdkTasksAssembly>
-		<_BlazorWebAssemblySdkToolAssembly>$(BlazorWebAssemblySdkDirectoryRoot)tools\$(TargetFramework)\Microsoft.NET.Sdk.BlazorWebAssembly.Tool.dll</_BlazorWebAssemblySdkToolAssembly>
+		<CompressionIncludePatterns>$(CompressionIncludePatterns);**/*.css;**/*.js</CompressionIncludePatterns>
+		<BuildCompressionFormats>gzip;brotli</BuildCompressionFormats>
+		<PublishCompressionFormats>gzip;brotli</PublishCompressionFormats>
 	</PropertyGroup>
 
-	<!-- The next two lines are Copyright (c) .NET Foundation. All rights reserved. -->
-	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.BrotliCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
-	<UsingTask TaskName="Microsoft.NET.Sdk.BlazorWebAssembly.GzipCompress" AssemblyFile="$(_BlazorWebAssemblySdkTasksAssembly)" />
-
-	<!--
-		This target runs after build. If you want to run after Publish, change:
-		- AfterTargets should be set to "Build"
-		- "ProjectDir" in MyStaticFiles should be changed to "PublishDir"
-	-->
-	<Target Name="CustomGZipAndBrotliCompression" AfterTargets="Build">
-
-		<Message Importance="High" Text="======= Gzip/Brotli task assembly details=$(_BlazorWebAssemblySdkTasksAssembly)" />
-		<Message Importance="High" Text="======= Brotli tool assembly details=$(_BlazorWebAssemblySdkToolAssembly)" />
-		<Message Importance="High" Text="======= Brotli tool executable details=$(_RazorSdkDotNetHostFileName)" />
-		<Message Importance="High" Text="======= Brotli tool path details=$(_RazorSdkDotNetHostDirectory)" />
-
-		<!--************* THIS IS WHERE YOU CHOOSE WHAT TO COMPRESS *****************
-			you probably don't want to change anything else - just this ItemGroup-->
-
-		<ItemGroup>
-			<MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.css" />
-			<MyStaticFiles Include="$(ProjectDir)/wwwroot/**/*.js" />
-		</ItemGroup>
-
-		<!--Call the BlazorWebAssembly Task GZipCompress and store the results in MyCompressedFiles-->
-		<GZipCompress FilesToCompress="@(MyStaticFiles)" OutputDirectory="$(IntermediateOutputPath)compress\">
-			<Output TaskParameter="CompressedFiles" ItemName="MyCompressedFiles" />
-		</GZipCompress>
-
-		<!--Call the BlazorWebAssembly Task BrotliCompress and store the results in MyCompressedFiles-->
-		<BrotliCompress FilesToCompress="@(MyStaticFiles)" OutputDirectory="$(IntermediateOutputPath)compress\" ToolAssembly="$(_BlazorWebAssemblySdkToolAssembly)" ToolExe="$(_RazorSdkDotNetHostFileName)" ToolPath="$(_RazorSdkDotNetHostDirectory)">
-			<Output TaskParameter="CompressedFiles" ItemName="MyCompressedFiles" />
-		</BrotliCompress>
-
-		<!--Log what we have done-->
-		<Message Importance="High" Text="======= Brotli/GZip Compression For @(MyCompressedFiles-&gt;Count()) Static Files =======" />
-		<Message Importance="High" Text=" Compressed: %(MyCompressedFiles.OriginalItemSpec)%(MyCompressedFiles.Extension)" />
-
-		<!--Rename/move the compressed files back to to the correct place/names as they have "hashed" names at this stage.-->
-		<Move SourceFiles="%(MyCompressedFiles.FullPath)" DestinationFiles="%(MyCompressedFiles.OriginalItemSpec)%(MyCompressedFiles.Extension)" />
-
-	</Target>
-	
 </Project>

@@ -41,7 +41,7 @@ This project allows you to serve precompressed files to the browser without havi
 ## Getting Started
 
 ### Precompress content
-Static nonimage files have to be precompressed using [Gzip](https://en.wikipedia.org/wiki/Gzip) and/or [Brotli](https://en.wikipedia.org/wiki/Brotli), see the example CompressedStaticFiles.csproj for an automated methodology for producing compressed css & js files.
+Static nonimage files have to be precompressed using [Gzip](https://en.wikipedia.org/wiki/Gzip) and/or [Brotli](https://en.wikipedia.org/wiki/Brotli), see CompressedStaticFiles.Example.csproj for an automated methodology for producing compressed css & js files.
 The files must have the exact same filename as the source + `.br` or `.gzip` (`index.html` would be `index.html.br` for the Brotli version).
 
 ### Encode images
@@ -67,4 +67,4 @@ We built this cloned project because:
 
 - We wanted to update to the currently supported version of .NET;
 - To make some refinements that were to our taste; and
-- To add MSBuild code to the [example CSPROJ file](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/blob/main/CompressedStaticFiles.Example/CompressedStaticFiles.Example.csproj#L37) to build Brotli and Gzip compressed CSS and JS files, using a method contributed by [SQL-MisterMagoo](https://github.com/SQL-MisterMagoo).
+- To add MSBuild code to the [example CSPROJ file](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/blob/main/CompressedStaticFiles.Example/CompressedStaticFiles.Example.csproj#L13) to build Brotli and Gzip compressed CSS and JS files.
