@@ -42,7 +42,7 @@ This project allows you to serve precompressed files to the browser without havi
 
 ### Precompress content
 Static nonimage files have to be precompressed using [Gzip](https://en.wikipedia.org/wiki/Gzip) and/or [Brotli](https://en.wikipedia.org/wiki/Brotli), see CompressedStaticFiles.Example.csproj for an automated methodology for producing compressed css & js files.
-The files must have the exact same filename as the source + `.br` or `.gzip` (`index.html` would be `index.html.br` for the Brotli version).
+The files must have the same filename as the source + `.br` or `.gzip` (`index.html` would be `index.html.br` for the Brotli version).
 
 ### Encode images
 Modern browsers support new image formats like webp and avif they can store more pixels per byte.
