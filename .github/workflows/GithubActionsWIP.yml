@@ -1,4 +1,4 @@
-﻿name: GithubActionsWIP
+name: GithubActionsWIP
 
 on:
   push:
