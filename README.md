@@ -41,8 +41,8 @@ This project allows you to serve precompressed files to the browser without havi
 ## Getting Started
 
 ### Precompress content
-Static nonimage files have to be precompressed using [Gzip](https://en.wikipedia.org/wiki/Gzip) and/or [Brotli](https://en.wikipedia.org/wiki/Brotli), see CompressedStaticFiles.Example.csproj for an automated methodology for producing compressed css & js files.
-The files must have the same filename as the source + `.br` or `.gzip` (`index.html` would be `index.html.br` for the Brotli version).
+Static nonimage files have to be precompressed using [Gzip](https://en.wikipedia.org/wiki/Gzip), [Brotli](https://en.wikipedia.org/wiki/Brotli) and/or [Zstd](https://en.wikipedia.org/wiki/Zstd), see CompressedStaticFiles.Example.csproj for an automated methodology for producing compressed css & js files.
+The files must have the same filename as the source + `.br`/`.gzip`/`.zstd` (`index.html` would be `index.html.br` for the Brotli version).
 
 ### Encode images
 Modern browsers support new image formats like webp and avif they can store more pixels per byte.
@@ -55,7 +55,7 @@ Replace `UseStaticFiles();` with `UseCompressedStaticFiles();` in `Startup.Confi
 By default CompressedStaticFiles is configured to allow slightly larger files for some image formats as they can store more pixels per byte, this can be disabled by calling `CompressedStaticFileOptions.RemoveImageSubstitutionCostRatio()`.
 
 ## Example
-An example can be found in the [Example](https://github.com/material-blazor/CompressedStaticFiles.AspNet/tree/main/CompressedStaticFiles.Example) directory.
+An example with Gzip and Brotli can be found in the [Example](https://github.com/material-blazor/CompressedStaticFiles.AspNet/tree/main/CompressedStaticFiles.Example) directory.
 By using this package the Lighthouse mobile performance went from `76` to `98` and the transferred size went from `526 kb` to `141 kb`.
 
 ## Acknowledgements
@@ -67,4 +67,4 @@ We built this cloned project because:
 
 - We wanted to update to the currently supported version of .NET;
 - To make some refinements that were to our taste; and
-- To add MSBuild code to the [example CSPROJ file](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/blob/main/CompressedStaticFiles.Example/CompressedStaticFiles.Example.csproj#L13) to build Brotli and Gzip compressed CSS and JS files.
+- To add MSBuild code to the [example CSPROJ file](https://github.com/Material-Blazor/CompressedStaticFiles.AspNet/blob/main/CompressedStaticFiles.Example/CompressedStaticFiles.Example.csproj#L13) to build Brotli, Gzip and Zstd compressed CSS and JS files.
