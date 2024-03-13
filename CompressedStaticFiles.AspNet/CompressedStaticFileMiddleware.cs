@@ -126,8 +126,7 @@ public class CompressedStaticFileMiddleware
         //Find the smallest file from all our alternative file providers
         var smallestAlternativeFile = _alternativeFileProviders.Select(alternativeFileProvider => alternativeFileProvider.GetAlternative(context, fileSystem, originalFile))
                                                               .Where(af => af != null)
-                                                              .OrderBy(alternativeFile => alternativeFile?.Cost)
-                                                              .FirstOrDefault();
+                                                              .MinBy(alternativeFile => alternativeFile?.Cost);
 
         if (smallestAlternativeFile != null)
         {

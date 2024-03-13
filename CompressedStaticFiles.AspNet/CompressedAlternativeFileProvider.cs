@@ -24,7 +24,8 @@ public class CompressedAlternativeFileProvider : IAlternativeFileProvider
         new Dictionary<string, string>()
         {
             { "gzip", ".gz" },
-            { "br", ".br" }
+            { "br", ".br" },
+            { "zstd", ".zst" }
         }.ToImmutableDictionary();
 
 
@@ -45,6 +46,7 @@ public class CompressedAlternativeFileProvider : IAlternativeFileProvider
     {
         // the StaticFileProvider would not serve the file if it does not know the content-type
         fileExtensionContentTypeProvider.Mappings[".br"] = "application/brotli";
+        fileExtensionContentTypeProvider.Mappings[".zst"] = "application/zstd";
     }
 
 
