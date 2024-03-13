@@ -56,11 +56,10 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: Use prelease dotnet
-      uses: actions/setup-dotnet@v2
+    - name: Use dotnet
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.x'
-        include-prerelease: true
 
     - name: Get the version
       run:  echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV

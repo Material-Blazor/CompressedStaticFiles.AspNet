@@ -36,10 +36,9 @@ jobs:
         persist-credentials: false
 
     - name: Use prelease dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.x'
-        include-prerelease: true
 
     - name: Build CompressedStaticFiles.AspNetCore 🔧
       run: dotnet build ${{env.projectCSFB}} --configuration ${{env.buildConfiguration}} --version-suffix ${{env.ciSuffix}}

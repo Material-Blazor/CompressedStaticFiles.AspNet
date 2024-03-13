@@ -50,7 +50,7 @@ public class AlternativeImageFile : IFileAlternative
         context.Request.Path = new PathString(matchedPath);
         
         //Ensure that a caching proxy knows that it should cache based on the Accept header.
-        context.Response.Headers.Add("Vary", "Accept");
+        context.Response.Headers["Vary"] = "Accept";
     }
 
 
