@@ -55,7 +55,7 @@ public class CompressedAlternativeFile : IFileAlternative
                 if (contentTypeProvider.TryGetContentType(staticFileResponseContext.File.PhysicalPath.Remove(
                     staticFileResponseContext.File.PhysicalPath.Length - fileExtension.Length, fileExtension.Length), out var contentType))
                     staticFileResponseContext.Context.Response.ContentType = contentType;
-                staticFileResponseContext.Context.Response.Headers.Add("Content-Encoding", new[] { compressionType });
+                staticFileResponseContext.Context.Response.Headers["Content-Encoding"] = new[] { compressionType };
             }
         }
     }
